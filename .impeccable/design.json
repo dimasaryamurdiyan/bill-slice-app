@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-13T00:00:00+07:00",
+  "title": "Design System: BillSlice",
+  "extensions": {
+    "colorMeta": {
+      "emerald-action": {
+        "role": "primary",
+        "displayName": "Table Emerald",
+        "canonical": "#20C982",
+        "tonalRamp": ["#053C29", "#07583A", "#087C4E", "#0A9B62", "#20C982", "#72DBAC", "#B7EDD5", "#E5F9F0"]
+      },
+      "emerald-deep": {
+        "role": "primary",
+        "displayName": "Deep Emerald",
+        "canonical": "#087C4E",
+        "tonalRamp": ["#03291C", "#05422B", "#075E3C", "#087C4E", "#10A76A", "#55C995", "#A9E6CA", "#E5F9F0"]
+      },
+      "mint-highlight": {
+        "role": "primary-container",
+        "displayName": "Receipt Mint",
+        "canonical": "#E5F9F0",
+        "tonalRamp": ["#12372A", "#245744", "#3F785F", "#65A386", "#8FCAB0", "#B7E6D1", "#D4F2E5", "#E5F9F0"]
+      },
+      "warm-canvas": {
+        "role": "neutral",
+        "displayName": "Warm Canvas",
+        "canonical": "#FAF9F6",
+        "tonalRamp": ["#242522", "#3F403C", "#5F605A", "#85867F", "#ACADA6", "#D3D3CD", "#ECECE7", "#FAF9F6"]
+      },
+      "deep-ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "canonical": "#17211D",
+        "tonalRamp": ["#17211D", "#27332E", "#3E4B45", "#59665F", "#7B8781", "#A5AEA9", "#D2D8D4", "#F2F5F2"]
+      },
+      "warning-surface": {
+        "role": "warning-container",
+        "displayName": "Warning Surface",
+        "canonical": "#FFF4D2",
+        "tonalRamp": ["#352800", "#594300", "#8A6200", "#B88712", "#DBAD3F", "#ECCD79", "#F8E5B1", "#FFF4D2"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Home, splash, and rare outcome emphasis." },
+      "headline": { "displayName": "Headline", "purpose": "One clear task statement per screen." },
+      "title": { "displayName": "Title", "purpose": "App bars and section emphasis." },
+      "body": { "displayName": "Body", "purpose": "Instructions, controls, and primary row content." },
+      "label": { "displayName": "Label", "purpose": "Field labels, metadata, and state copy." },
+      "navigation": { "displayName": "Navigation", "purpose": "Compact bottom navigation labels." }
+    },
+    "shadows": [
+      { "name": "floating-navigation", "value": "0 4px 16px #17211D12", "purpose": "Bottom navigation only." },
+      { "name": "primary-action-lift", "value": "0 4px 14px #087C4E20", "purpose": "Large Scan Receipt action." },
+      { "name": "logo-aura", "value": "0 12px 32px #087C4E1A", "purpose": "Splash logo presentation only." },
+      { "name": "quiet-panel-lift", "value": "0 3px 12px #17211D0D", "purpose": "A singular share or preview panel." }
+    ],
+    "motion": [
+      { "name": "state-fast", "value": "150ms cubic-bezier(0.25, 1, 0.5, 1)", "purpose": "Pressed, selected, and focus feedback." },
+      { "name": "state-standard", "value": "220ms cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Content state changes and progress reveals." }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "0-599dp" },
+      { "name": "medium", "value": "600-839dp" },
+      { "name": "expanded", "value": "840dp+" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Green Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single dominant action on a task screen.",
+      "html": "<button class=\"ds-btn-primary\"><span aria-hidden=\"true\">✓</span> Confirm Receipt</button>",
+      "css": ".ds-btn-primary{height:52px;padding:0 16px;border:0;border-radius:12px;background:#20C982;color:#17211D;font:700 15px 'Funnel Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:filter 150ms cubic-bezier(.25,1,.5,1)}.ds-btn-primary:hover{filter:brightness(.96)}.ds-btn-primary:active{filter:brightness(.91)}.ds-btn-primary:focus-visible{outline:3px solid #087C4E55;outline-offset:2px}.ds-btn-primary:disabled{background:#F2F5F2;color:#6D7771}"
+    },
+    {
+      "name": "Secondary Charcoal Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A visible but subordinate fallback, especially manual entry.",
+      "html": "<button class=\"ds-btn-secondary\">✎ Enter Manually</button>",
+      "css": ".ds-btn-secondary{height:52px;padding:0 16px;border:0;border-radius:12px;background:#202B26;color:#FFFEFC;font:700 15px 'Funnel Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:filter 150ms cubic-bezier(.25,1,.5,1)}.ds-btn-secondary:hover{filter:brightness(1.08)}.ds-btn-secondary:active{filter:brightness(.94)}.ds-btn-secondary:focus-visible{outline:3px solid #20C98266;outline-offset:2px}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Warm, bordered field for names and receipt metadata.",
+      "html": "<label class=\"ds-field\"><span>Restaurant name</span><input value=\"Warung Sore\" /></label>",
+      "css": ".ds-field{display:grid;gap:5px;color:#6D7771;font:600 12px 'Funnel Sans',sans-serif}.ds-field input{height:48px;padding:0 14px;border:1px solid #E2E7E3;border-radius:8px;background:#FFFEFC;color:#17211D;font:500 15px 'Funnel Sans',sans-serif;outline:none}.ds-field input:hover{border-color:#B9C6BF}.ds-field input:focus-visible{border-color:#087C4E;box-shadow:0 0 0 2px #20C98224}"
+    },
+    {
+      "name": "Person Chip",
+      "kind": "chip",
+      "refersTo": "chip-person",
+      "description": "Friendly identity chip for people and selected assignees.",
+      "html": "<button class=\"ds-person-chip\"><span>D</span>Dimas</button>",
+      "css": ".ds-person-chip{padding:8px 12px;border:0;border-radius:999px;background:#E5F9F0;color:#087C4E;font:700 13px 'Funnel Sans',sans-serif;display:inline-flex;align-items:center;gap:7px}.ds-person-chip span{width:24px;height:24px;border-radius:50%;background:#20C982;color:#17211D;display:grid;place-items:center;font-weight:800}.ds-person-chip:hover{filter:brightness(.97)}.ds-person-chip:focus-visible{outline:3px solid #087C4E44;outline-offset:2px}"
+    },
+    {
+      "name": "Receipt Item Row",
+      "kind": "card",
+      "refersTo": "row-standard",
+      "description": "Compact item summary with strong price alignment.",
+      "html": "<div class=\"ds-receipt-row\"><span><strong>Nasi Goreng</strong><small>1 × Rp40.000</small></span><b>Rp40.000</b></div>",
+      "css": ".ds-receipt-row{padding:11px 12px;border:1px solid #E2E7E3;border-radius:8px;background:#FFFEFC;color:#17211D;font-family:'Funnel Sans',sans-serif;display:flex;align-items:center;justify-content:space-between;gap:16px}.ds-receipt-row span{display:grid;gap:2px}.ds-receipt-row strong{font-size:14px;font-weight:700}.ds-receipt-row small{color:#6D7771;font-size:11px}.ds-receipt-row b{font-size:14px;white-space:nowrap}"
+    },
+    {
+      "name": "Warning Banner",
+      "kind": "custom",
+      "refersTo": "banner-warning",
+      "description": "Actionable warning for mismatched totals or incomplete assignment.",
+      "html": "<div class=\"ds-warning\" role=\"alert\"><span aria-hidden=\"true\">⚠</span><span>Calculated total does not match receipt total.</span></div>",
+      "css": ".ds-warning{padding:12px;border-radius:8px;background:#FFF4D2;color:#8A6200;font:600 12px/1.25 'Funnel Sans',sans-serif;display:flex;gap:10px;align-items:flex-start}.ds-warning>span:first-child{font-size:18px;line-height:1}"
+    },
+    {
+      "name": "Bottom Navigation",
+      "kind": "nav",
+      "refersTo": "bottom-navigation",
+      "description": "A floating three-destination capsule for Home, History, and Settings.",
+      "html": "<nav class=\"ds-bottom-nav\" aria-label=\"Primary\"><a class=\"active\" href=\"#\">⌂<span>Home</span></a><a href=\"#\">↺<span>History</span></a><a href=\"#\">⚙<span>Settings</span></a></nav>",
+      "css": ".ds-bottom-nav{height:64px;padding:6px 8px;border:1px solid #E2E7E3;border-radius:999px;background:#FFFEFCEB;box-shadow:0 4px 16px #17211D12;display:flex;align-items:center;justify-content:space-around;font-family:'Funnel Sans',sans-serif}.ds-bottom-nav a{height:100%;flex:1;border-radius:999px;color:#6D7771;text-decoration:none;display:grid;place-content:center;place-items:center;gap:2px;font-size:18px}.ds-bottom-nav a span{font-size:10px;font-weight:500}.ds-bottom-nav a.active{background:#E5F9F0;color:#087C4E}.ds-bottom-nav a.active span{font-weight:700}.ds-bottom-nav a:focus-visible{outline:2px solid #087C4E;outline-offset:1px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Table Companion",
+    "overview": "BillSlice should feel like a capable friend helping at a busy restaurant table: quick to understand, calm under imperfect receipt data, and trustworthy with the final numbers. The light, warm canvas remains quiet while emerald marks the next action, selected state, successful result, and AI-assisted moments. Familiar Android patterns and direct language keep the product usable without instruction. The system is task-first rather than promotional. Every screen has one clear job, manual entry remains as visible and credible as Smart Scan, and AI output is always presented as an editable draft.",
+    "keyCharacteristics": [
+      "Warm light surfaces built for use under mixed restaurant lighting.",
+      "Bright emerald actions balanced by deep charcoal and green-tinted neutrals.",
+      "Rounded, confident controls with compact repeated rows.",
+      "One focused task and one dominant action per screen.",
+      "Transparent loading, warning, disabled, empty, and success states.",
+      "IDR-first formatting and WhatsApp-first sharing."
+    ],
+    "rules": [
+      { "name": "The Emerald Means Action Rule", "body": "Use #20C982 for primary actions, progress, selected states, and success. Do not scatter it across inactive decoration.", "section": "colors" },
+      { "name": "The Tinted Neutral Rule", "body": "Use #FAF9F6, #FFFEFC, and #17211D instead of pure white or black.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Use Funnel Sans across product UI, labels, and numeric data. Do not introduce a display serif, script, or monospaced font.", "section": "typography" },
+      { "name": "The Numbers Stay Legible Rule", "body": "Never sacrifice currency clarity for style. Keep person totals right-aligned where rows compare values, and use Indonesian grouping punctuation by default.", "section": "typography" },
+      { "name": "The Flat-by-Default Rule", "body": "Rows, fields, banners, and ordinary cards use color and a 1dp border, not shadows. Never stack shadows on nested containers.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep each screen focused on one task and one dominant action.",
+      "Do keep manual entry visible anywhere Smart Scan can fail or be skipped.",
+      "Do label AI parsing as an editable draft and require confirmation before splitting.",
+      "Do format currency as IDR by default, such as Rp40.000 and Rp219.450.",
+      "Do keep ads outside the active split flow."
+    ],
+    "donts": [
+      "Don't use the starter Material purple palette.",
+      "Don't use pure black or white as primary surfaces or text.",
+      "Don't clutter screens, use heavy gradients, glassmorphism, decorative finance-dashboard styling, or marketing-only hero pages.",
+      "Don't hide manual entry behind an error state or overflow menu.",
+      "Don't present AI output as final or silently correct receipt totals."
+    ]
+  }
+}

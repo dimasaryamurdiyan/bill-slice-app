@@ -1,0 +1,69 @@
+# Gradle and Kotlin
+.gradle/
+.kotlin/
+**/build/
+
+# Local Ruby and Bundler state
+.bundle/
+vendor/bundle/
+/fastlane/README.md
+/fastlane/report.xml
+
+# Machine-local Android configuration
+local.properties
+*.local.properties
+
+# Android Studio and IntelliJ IDEA
+*.iml
+.idea/
+
+# Android and native build output
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Environment files and local secret properties
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+!.env.*.example
+secrets.properties
+*.secrets.properties
+credentials.properties
+keystore.properties
+signing.properties
+key.properties
+
+# Signing keys and private certificates
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+*private*.pem
+
+# Project-specific service configuration and service-account credentials
+**/google-services.json
+**/GoogleService-Info.plist
+firebaseCrashlytics.properties
+firebase-adminsdk-*.json
+service-account*.json
+*-service-account.json
+client_secret*.json
+*-credentials.json
+
+# Logs, crash dumps, and profiling output can contain sensitive runtime data
+*.log
+*.hprof
+*.trace
+*.heapdump
+
+# OS-generated files
+.DS_Store
+Thumbs.db

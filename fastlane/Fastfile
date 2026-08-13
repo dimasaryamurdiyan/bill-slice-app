@@ -1,0 +1,11 @@
+default_platform(:android)
+
+platform :android do
+  desc "Run the deterministic local and CI verification gate"
+  lane :verify do
+    gradle(
+      tasks: %w[testDebugUnitTest lintDebug assembleDebug],
+      flags: "--stacktrace",
+    )
+  end
+end
