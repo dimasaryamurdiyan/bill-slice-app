@@ -1,6 +1,6 @@
 # App shell implementation plan
 
-- Status: In Progress
+- Status: Complete
 - Specification: [`docs/specs/app-shell.md`](../specs/app-shell.md)
 - Branch: `codex/app-shell`
 
@@ -80,7 +80,7 @@
   - Likely scope: complete branch diff and evidenced fixes.
   - Verification: `git diff --check`; fresh review; affected reruns.
   - Depends on: `T-009`
-- [ ] `T-011` — Perform final acceptance-criteria verification
+- [x] `T-011` — Perform final acceptance-criteria verification
   - Covers: `AC-001`–`AC-007`
   - Result: Every criterion has recorded evidence and Fastlane/CI gates pass before human review.
   - Likely scope: PR evidence only.
@@ -93,6 +93,6 @@ Risks are premature shared UI, route coupling, and adaptive drift from phone-foc
 
 ## Completion checklist
 
-- [ ] `AC-001`–`AC-007` have evidence.
-- [ ] Targeted tests, compile, lint, assembly, actual-app checks, Fastlane/CI, and diff review pass.
-- [ ] No blocking finding or unapproved feature logic exists in the shell.
+- [x] `AC-001`–`AC-007` have evidence.
+- [x] Targeted tests, compile, lint, assembly, actual-app checks, Fastlane/CI, and diff review pass.
+- [x] No blocking finding or unapproved feature logic exists in the shell.
