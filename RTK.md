@@ -2,6 +2,19 @@
 
 This is the repository-wide operating guide for coding agents. Keep it accurate as the project evolves. A more specific `AGENTS.md` in a subdirectory may add local rules for that subtree.
 
+## RTK command optimization
+
+Use [RTK](https://github.com/rtk-ai/rtk) as the token-optimized proxy for shell commands whenever it supports the command being run.
+
+```bash
+rtk git status
+rtk git diff
+rtk test ./gradlew test
+rtk gain --project
+```
+
+For commands without a dedicated RTK wrapper, use `rtk proxy <command>` when tracking is useful. If RTK filtering hides information needed to diagnose a failure, inspect the saved full output or rerun the narrow command without filtering.
+
 ## Instruction order
 
 1. Platform, safety, and sandbox instructions.
