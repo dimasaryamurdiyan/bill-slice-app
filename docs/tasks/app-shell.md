@@ -1,6 +1,6 @@
 # App shell implementation plan
 
-- Status: Ready
+- Status: In Progress
 - Specification: [`docs/specs/app-shell.md`](../specs/app-shell.md)
 - Branch: `codex/app-shell`
 
@@ -20,7 +20,7 @@
 
 ## Vertical slices
 
-- [ ] `T-001` — Establish green post-skeleton baseline
+- [x] `T-001` — Establish green post-skeleton baseline
   - Covers: `AC-007`
   - Result: Git, modules, tests, lint, and assembly are green before shell work.
   - Likely scope: read-only repository inspection.
