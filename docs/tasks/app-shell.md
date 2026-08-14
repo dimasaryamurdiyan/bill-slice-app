@@ -32,7 +32,7 @@
   - Likely scope: `:core:designsystem`, `:core:ui`, app theme resources/wiring, Gradle catalog.
   - Verification: theme/UI tests and affected-module compilation.
   - Depends on: `T-001`
-- [ ] `T-003` — Define typed app routes and navigation acceptance tests
+- [x] `T-003` — Define typed app routes and navigation acceptance tests
   - Covers: `FR-002`–`FR-005`, `FR-009`; `AC-001`–`AC-003`
   - Result: App-owned typed routes connect independent feature entry interfaces and tests prove idempotent navigation.
   - Likely scope: `:app`, route contracts, navigation test sources.
