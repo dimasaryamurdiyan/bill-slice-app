@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
 import com.dimasarya.billslice.feature.bill.Greeting
-import com.dimasarya.billslice.ui.theme.BillSliceTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

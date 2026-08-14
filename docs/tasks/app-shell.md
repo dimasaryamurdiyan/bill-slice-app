@@ -26,7 +26,7 @@
   - Likely scope: read-only repository inspection.
   - Verification: `git status --short`; `./gradlew testDebugUnitTest lintDebug assembleDebug`
   - Depends on: none
-- [ ] `T-002` — Implement BillSlice design tokens and theme
+- [x] `T-002` — Implement BillSlice design tokens and theme
   - Covers: `FR-006`, `FR-007`; `AC-004`
   - Result: `:core:designsystem` owns approved light tokens; `:core:ui` contains only proven shared patterns; starter theme behavior is removed.
   - Likely scope: `:core:designsystem`, `:core:ui`, app theme resources/wiring, Gradle catalog.
