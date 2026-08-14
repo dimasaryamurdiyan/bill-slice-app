@@ -1,3 +1,17 @@
+## Specification and task progress
+
+**Specification:** <!-- docs/specs/<feature>.md, or N/A -->
+
+**Task plan:** <!-- docs/tasks/<feature>.md, or N/A -->
+
+**Selected slice:** <!-- T-### and title, or N/A -->
+
+**Tasks checked:** <!-- T-###, or N/A -->
+
+**Plan status:** <!-- Ready / In Progress / Complete / N/A -->
+
+<!-- For feature work, confirm the spec is Approved and list tasks checked by this PR update. -->
+
 ## Outcome contract
 
 ### Outcome
