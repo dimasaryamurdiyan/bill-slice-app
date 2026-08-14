@@ -1,6 +1,6 @@
 # Skeleton architecture implementation plan
 
-- Status: Ready
+- Status: In Progress
 - Specification: [`docs/specs/skeleton-architecture.md`](../specs/skeleton-architecture.md)
 - Branch: `codex/skeleton-architecture`
 
@@ -22,56 +22,56 @@
 
 ## Vertical slices
 
-- [ ] `T-001` — Establish and record a green implementation baseline
+- [x] `T-001` — Establish and record a green implementation baseline
   - Covers: `FR-007`, `FR-009`, `FR-011`; `AC-006`
   - Result: The implementation branch starts from the approved clean baseline, current generated tests are recognized only as build smoke tests, and existing compilation, JVM tests, lint, and debug assembly are known-good before extraction.
   - Likely scope: read-only inspection of `settings.gradle.kts`, root and app Gradle files, `app/src`, and Git state; no production edit.
   - Verification: `git status --short`; `git log -1 --oneline`; `./gradlew help :app:testDebugUnitTest :app:lintDebug :app:assembleDebug`
   - Depends on: none
 
-- [ ] `T-002` — Add the minimum Gradle module types and declarations
+- [x] `T-002` — Add the minimum Gradle module types and declarations
   - Covers: `FR-001`, `FR-003`, `FR-004`, `FR-005`, `FR-008`; `AC-001`, `AC-002`, `AC-004`
   - Result: Gradle recognizes `:core:model` and `:core:domain` as pure Kotlin modules and `:feature:bill` as an Android library; only plugin aliases and compile dependencies required for those module types are added.
   - Likely scope: `settings.gradle.kts`, root `build.gradle.kts`, `gradle/libs.versions.toml`, `core/model/build.gradle.kts`, `core/domain/build.gradle.kts`, `feature/bill/build.gradle.kts`, and minimal Android-library manifest only if AGP requires it.
   - Verification: `./gradlew projects`; `./gradlew :core:model:compileKotlin :core:domain:compileKotlin :feature:bill:compileDebugKotlin`
   - Depends on: `T-001`
 
-- [ ] `T-003` — Wire the approved inward dependency path
+- [x] `T-003` — Wire the approved inward dependency path
   - Covers: `FR-002`, `FR-003`, `FR-004`, `FR-005`, `FR-006`; `AC-001`, `AC-002`
   - Result: Project dependencies are exactly `:app → :feature:bill`, `:feature:bill → :core:domain` and `:core:model`, and `:core:domain → :core:model`; pure modules contain no Android or external SDK dependency and no reverse edge exists.
   - Likely scope: `app/build.gradle.kts`, `feature/bill/build.gradle.kts`, `core/domain/build.gradle.kts`, `core/model/build.gradle.kts`.
   - Verification: manual build-file review; `./gradlew :app:dependencies --configuration debugRuntimeClasspath`; `./gradlew :feature:bill:dependencies --configuration debugRuntimeClasspath`; pure-module dependency reports using the configuration names exposed by `./gradlew :core:model:tasks :core:domain:tasks`
   - Depends on: `T-002`
 
-- [ ] `T-004` — Move the existing placeholder UI behind the bill-feature seam
+- [x] `T-004` — Move the existing placeholder UI behind the bill-feature seam
   - Covers: `FR-005`, `FR-006`, `FR-007`; `AC-003`
   - Result: `MainActivity` and app theme application remain in `:app`; the existing `Greeting` placeholder content and preview move to `:feature:bill`; `:app` invokes the feature-owned composable with no intentional copy, interaction, semantic, layout, or theme change.
   - Likely scope: `app/src/main/java/com/dimasarya/billslice/MainActivity.kt`; new source under `feature/bill/src/main/java/com/dimasarya/billslice/feature/bill/`; feature Compose dependencies. Existing theme files remain in `:app` for this slice.
   - Verification: `./gradlew :feature:bill:compileDebugKotlin :app:compileDebugKotlin`; source comparison of the composable before/after; Compose preview may assist development but is not acceptance evidence.
   - Depends on: `T-003`
 
-- [ ] `T-005` — Exercise the architecture acceptance scenarios without inventing domain tests
+- [x] `T-005` — Exercise the architecture acceptance scenarios without inventing domain tests
   - Covers: `FR-002`, `FR-007`, `FR-009`, `FR-011`; `AC-001`, `AC-003`, `AC-005`
   - Result: Targeted build checks demonstrate that every module compiles independently and together. Any retained or renamed generated tests are clearly treated as smoke checks, and no fake bill-domain assertion, marker production type, repository interface, or canonical fixture is added merely to create coverage.
   - Likely scope: affected module test source sets only if an existing smoke test must move with its owner; otherwise commands and PR evidence rather than new test files.
   - Verification: `./gradlew :core:model:compileKotlin :core:domain:compileKotlin :feature:bill:compileDebugKotlin :app:compileDebugKotlin`; `./gradlew testDebugUnitTest`
   - Depends on: `T-004`
 
-- [ ] `T-006` — Verify boundary and failure constraints
+- [x] `T-006` — Verify boundary and failure constraints
   - Covers: `FR-002`, `FR-003`, `FR-004`, `FR-008`; `AC-001`, `AC-002`, `AC-004`, `AC-008`
   - Result: Inspection confirms no cycle, outward pure-module dependency, new permission, secret, service identifier, runtime integration, speculative interface, or unapproved module/dependency; deliberately breaking a build is not required.
   - Likely scope: all changed Gradle files, module manifests, source files, and `app/src/main/AndroidManifest.xml`.
   - Verification: `./gradlew projects`; dependency reports from `T-003`; `rg -n "(api_key|service_role|OPENAI|SUPABASE|REVENUECAT|ADMOB|uses-permission)" --glob '!**/build/**'`; manual interface/dependency inspection
   - Depends on: `T-003`, `T-004`
 
-- [ ] `T-007` — Document the implemented graph without changing product contracts
+- [x] `T-007` — Document the implemented graph without changing product contracts
   - Covers: `FR-010`; `AC-007`
   - Result: `ARCHITECTURE.md` gains a concise current-implementation section naming the four implemented modules and deferred modules, while its target graph and product/design documents remain unchanged.
   - Likely scope: `ARCHITECTURE.md` only. Update the specification/task links only if paths changed during implementation.
   - Verification: manual inspection that current and target graphs are distinguishable; link/path validation with `test -f docs/specs/skeleton-architecture.md` and `test -f docs/tasks/skeleton-architecture.md`
   - Depends on: `T-003`
 
-- [ ] `T-008` — Run targeted and aggregate local verification
+- [x] `T-008` — Run targeted and aggregate local verification
   - Covers: `FR-009`; `AC-005`, `AC-006`
   - Result: All affected module compilation, repository JVM tests, Android lint, and debug APK assembly pass on the completed implementation.
   - Likely scope: verification only; fixes stay within files already justified by failing evidence.
@@ -111,12 +111,12 @@
 ## Completion checklist
 
 - [ ] `AC-001` through `AC-008` each have explicit evidence.
-- [ ] All four approved modules compile independently and as the application graph.
-- [ ] `testDebugUnitTest`, `lintDebug`, and `assembleDebug` pass.
+- [x] All four approved modules compile independently and as the application graph.
+- [x] `testDebugUnitTest`, `lintDebug`, and `assembleDebug` pass.
 - [ ] The canonical `bundle exec fastlane android verify` gate and required GitHub Actions `verify` pass, or the PR remains draft with exact failure evidence.
 - [ ] Actual-app inspection on `Medium_Phone_API_36` is recorded with an uncommitted screenshot.
 - [ ] `git diff --check` passes and complete-diff review finds no secret, accidental churn, unjustified module/dependency, or speculative interface.
 - [ ] No P0/P1/P2 review finding remains unresolved.
-- [ ] `ARCHITECTURE.md` clearly distinguishes implemented and target graphs.
+- [x] `ARCHITECTURE.md` clearly distinguishes implemented and target graphs.
 - [ ] The PR description records the outcome contract, verification evidence, screenshot, review result, and remaining limitations.
 - [ ] The implementing agent has not merged the PR; human judgment owns approval and merge readiness.

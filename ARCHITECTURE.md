@@ -6,6 +6,21 @@ This document defines the target multi-module architecture for BillSlice. It is 
 
 No code module should be created only because the architecture names it. Modules should be introduced when their behaviour is needed by the current product version.
 
+## Current Implementation
+
+The implemented skeleton contains one compilable inward dependency path:
+
+```text
+:app -> :feature:bill -> :core:domain -> :core:model
+                     \-> :core:model
+```
+
+- `:app` owns application startup, the top-level theme, and feature wiring.
+- `:feature:bill` owns the current placeholder Compose content.
+- `:core:domain` and `:core:model` are Android-free Kotlin modules reserved for approved product behavior.
+
+All other modules in the graph below remain targets and should be introduced only when an approved product slice needs them.
+
 ## Architecture Principles
 
 BillSlice follows Modern Android Development principles:
