@@ -74,7 +74,7 @@
   - Likely scope: emulator/device evidence and evidenced fixes.
   - Verification: actual app on required devices; applicable connected tests.
   - Depends on: `T-008`
-- [ ] `T-010` — Review the complete diff against spec and standards
+- [x] `T-010` — Review the complete diff against spec and standards
   - Covers: `AC-001`–`AC-007`
   - Result: A fresh reviewer reports no unresolved blocking spec, architecture, accessibility, or standards finding.
   - Likely scope: complete branch diff and evidenced fixes.
