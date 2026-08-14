@@ -38,7 +38,7 @@
   - Likely scope: `:app`, route contracts, navigation test sources.
   - Verification: targeted navigation tests; dependency reports.
   - Depends on: `T-001`
-- [ ] `T-004` — Implement Splash and Home
+- [x] `T-004` — Implement Splash and Home
   - Covers: `FR-001`, `FR-002`, `FR-009`; `AC-001`, `AC-002`
   - Result: Offline startup reaches designed Home with scan/manual actions and recoverable optional content.
   - Likely scope: `:feature:home`, `:app`, resources, ViewModel/Compose tests.

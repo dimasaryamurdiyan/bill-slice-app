@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_brand">BillSlice</string>
+    <string name="home_headline">Split bills, not friendships.</string>
+    <string name="home_supporting">Scan a receipt and split in under a minute.</string>
+    <string name="scan_receipt">Scan Receipt</string>
+    <string name="scan_receipt_supporting">Camera or gallery</string>
+    <string name="enter_manually">Enter Manually</string>
+    <string name="enter_manually_supporting">Fast, reliable fallback</string>
+    <string name="smart_scans_left">%1$d Smart Scans left</string>
+    <string name="offline_ready">Offline ready</string>
+    <string name="view_lifetime_pro">View Lifetime Pro</string>
+    <string name="recent_bills">Recent bills</string>
+    <string name="see_all">See all</string>
+    <string name="recent_bills_empty_title">No recent bills yet</string>
+    <string name="recent_bills_empty_body">Scan a receipt or enter one manually to create your first split.</string>
+    <string name="recent_bill_meta">%1$s • %2$d people</string>
+</resources>
