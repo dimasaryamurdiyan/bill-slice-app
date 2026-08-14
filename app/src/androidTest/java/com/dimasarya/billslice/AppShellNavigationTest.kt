@@ -4,11 +4,14 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.DeviceConfigurationOverride
 import androidx.compose.ui.test.FontScale
 import androidx.compose.ui.test.ForcedSize
+import androidx.compose.ui.test.hasScrollAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.then
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -85,8 +88,10 @@ class AppShellNavigationTest {
             }
         }
 
-        composeRule.onNodeWithText("Scan Receipt").performScrollTo().assertIsDisplayed()
-        composeRule.onNodeWithText("Enter Manually").performScrollTo().assertIsDisplayed()
+        composeRule.onNode(hasScrollAction()).performScrollToNode(hasText("Scan Receipt"))
+        composeRule.onNodeWithText("Scan Receipt").assertIsDisplayed()
+        composeRule.onNode(hasScrollAction()).performScrollToNode(hasText("Enter Manually"))
+        composeRule.onNodeWithText("Enter Manually").assertIsDisplayed()
     }
 
     @Test
@@ -117,7 +122,9 @@ class AppShellNavigationTest {
             }
         }
 
-        composeRule.onNodeWithText("Scan Receipt").performScrollTo().assertIsDisplayed()
-        composeRule.onNodeWithText("Enter Manually").performScrollTo().assertIsDisplayed()
+        composeRule.onNode(hasScrollAction()).performScrollToNode(hasText("Scan Receipt"))
+        composeRule.onNodeWithText("Scan Receipt").assertIsDisplayed()
+        composeRule.onNode(hasScrollAction()).performScrollToNode(hasText("Enter Manually"))
+        composeRule.onNodeWithText("Enter Manually").assertIsDisplayed()
     }
 }
