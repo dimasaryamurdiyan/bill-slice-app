@@ -10,6 +10,8 @@
     <string name="startup_error_title">BillSlice couldn’t finish starting</string>
     <string name="startup_error_body">Your data is safe. Try the local startup check again.</string>
     <string name="startup_retry">Try again</string>
+    <string name="startup_config_error_title">BillSlice needs a configuration fix</string>
+    <string name="startup_config_error_body">This build can’t start safely. Install a correctly configured build and try again.</string>
     <string name="back">Back</string>
     <string name="splash_logo_description">BillSlice receipt logo</string>
     <string name="splash_tagline">Split bills, not friendships.</string>

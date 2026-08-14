@@ -256,7 +256,9 @@ private fun SettingRow(
     }
 }
 
-@Preview(showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Large font", showBackground = true, widthDp = 360, heightDp = 640, fontScale = 2f)
+@Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
 @Composable
 private fun SettingsScreenPreview() {
     BillSliceTheme {

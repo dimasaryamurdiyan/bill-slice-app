@@ -50,7 +50,7 @@
   - Likely scope: `:feature:settings`, domain-facing summary interfaces/fakes, resources/tests.
   - Verification: ViewModel and semantic Compose tests.
   - Depends on: `T-002`, `T-003`
-- [ ] `T-006` — Cover failure, restoration, and adaptive behavior
+- [x] `T-006` — Cover failure, restoration, and adaptive behavior
   - Covers: `FR-009`, `FR-010`; `AC-001`, `AC-006`
   - Result: Startup failure, repeated taps, rotation, large font, landscape, long text, and expanded width remain usable.
   - Likely scope: affected tests and narrowly evidenced UI fixes.

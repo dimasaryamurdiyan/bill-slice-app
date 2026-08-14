@@ -60,10 +60,13 @@ fun BillSliceApp(
             )
         },
         startupError = { onRetry ->
-            StartupErrorScreen {
-                startupState = StartupUiState.Ready
-                onRetry()
-            }
+            StartupErrorScreen(
+                recoverable = startupState != StartupUiState.UnrecoverableConfigurationFailure,
+                onRetry = {
+                    startupState = StartupUiState.Ready
+                    onRetry()
+                },
+            )
         },
         home = { onScan, onManual, onHistory, _, onLifetimePro ->
             HomeScreen(
@@ -155,7 +158,10 @@ private enum class TopLevelDestination(
 }
 
 @Composable
-private fun StartupErrorScreen(onRetry: () -> Unit) {
+private fun StartupErrorScreen(
+    recoverable: Boolean,
+    onRetry: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -167,16 +173,30 @@ private fun StartupErrorScreen(onRetry: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = stringResource(R.string.startup_error_title),
+            text = stringResource(
+                if (recoverable) {
+                    R.string.startup_error_title
+                } else {
+                    R.string.startup_config_error_title
+                },
+            ),
             modifier = Modifier.semantics { heading() },
             style = MaterialTheme.typography.headlineLarge,
         )
         Text(
-            text = stringResource(R.string.startup_error_body),
+            text = stringResource(
+                if (recoverable) {
+                    R.string.startup_error_body
+                } else {
+                    R.string.startup_config_error_body
+                },
+            ),
             style = MaterialTheme.typography.bodyLarge,
         )
-        Button(onClick = onRetry) {
-            Text(stringResource(R.string.startup_retry))
+        if (recoverable) {
+            Button(onClick = onRetry) {
+                Text(stringResource(R.string.startup_retry))
+            }
         }
     }
 }

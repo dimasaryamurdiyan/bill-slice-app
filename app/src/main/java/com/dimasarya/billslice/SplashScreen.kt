@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -45,6 +46,7 @@ sealed interface StartupUiState {
     data object Initializing : StartupUiState
     data object Ready : StartupUiState
     data object RecoverableFailure : StartupUiState
+    data object UnrecoverableConfigurationFailure : StartupUiState
 }
 
 @Composable
@@ -58,12 +60,14 @@ fun SplashScreen(
     LaunchedEffect(state) {
         when (state) {
             StartupUiState.Ready -> onReady()
-            StartupUiState.RecoverableFailure -> onFailure()
+            StartupUiState.RecoverableFailure,
+            StartupUiState.UnrecoverableConfigurationFailure,
+            -> onFailure()
             StartupUiState.Initializing -> Unit
         }
     }
 
-    Column(
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxSize()
             .background(
@@ -74,66 +78,73 @@ fun SplashScreen(
                 ),
             )
             .padding(horizontal = 18.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(Modifier.weight(1f))
+        val compactHeight = maxHeight < 600.dp
         Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.medium),
         ) {
-            Surface(
-                modifier = Modifier.size(196.dp),
-                color = WarmSurface.copy(alpha = 0.78f),
-                shape = RoundedCornerShape(52.dp),
-                shadowElevation = 8.dp,
+            Spacer(Modifier.weight(1f))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.medium),
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Surface(
-                        modifier = Modifier.size(160.dp),
-                        color = TableEmerald,
-                        shape = RoundedCornerShape(28.dp),
-                    ) {
-                        ReceiptLogo(
-                            modifier = Modifier
-                                .padding(44.dp)
-                                .semantics {
-                                    contentDescription = logoDescription
-                                },
-                        )
+                Surface(
+                    modifier = Modifier.size(if (compactHeight) 144.dp else 196.dp),
+                    color = WarmSurface.copy(alpha = 0.78f),
+                    shape = RoundedCornerShape(52.dp),
+                    shadowElevation = 8.dp,
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Surface(
+                            modifier = Modifier.size(if (compactHeight) 116.dp else 160.dp),
+                            color = TableEmerald,
+                            shape = RoundedCornerShape(28.dp),
+                        ) {
+                            ReceiptLogo(
+                                modifier = Modifier
+                                    .padding(if (compactHeight) 32.dp else 44.dp)
+                                    .semantics {
+                                        contentDescription = logoDescription
+                                    },
+                            )
+                        }
                     }
                 }
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.displayLarge,
+                )
+                Text(
+                    text = stringResource(R.string.splash_tagline),
+                    color = DeepEmerald,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                if (!compactHeight) {
+                    Text(
+                        text = stringResource(R.string.splash_supporting),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
             }
-            Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.displayLarge,
-            )
-            Text(
-                text = stringResource(R.string.splash_tagline),
-                color = DeepEmerald,
-                style = MaterialTheme.typography.titleLarge,
-            )
-            Text(
-                text = stringResource(R.string.splash_supporting),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        }
-        Spacer(Modifier.weight(1f))
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.small),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                Icons.Rounded.Shield,
-                contentDescription = null,
-                tint = DeepEmerald,
-            )
-            Text(
-                text = stringResource(R.string.splash_privacy),
-                color = DeepEmerald,
-                style = MaterialTheme.typography.bodyLarge,
-            )
+            Spacer(Modifier.weight(1f))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.small),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    Icons.Rounded.Shield,
+                    contentDescription = null,
+                    tint = DeepEmerald,
+                )
+                Text(
+                    text = stringResource(R.string.splash_privacy),
+                    color = DeepEmerald,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
         }
     }
 }
@@ -172,7 +183,8 @@ private fun ReceiptLogo(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Landscape", showBackground = true, widthDp = 800, heightDp = 400)
 @Composable
 private fun SplashPreview() {
     BillSliceTheme {

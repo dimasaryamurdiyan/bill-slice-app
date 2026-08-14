@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
@@ -58,6 +59,7 @@ fun HomeScreen(
     onHistory: () -> Unit,
     onLifetimePro: () -> Unit,
 ) {
+    val useStackedHeader = LocalDensity.current.fontScale >= 1.5f
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = androidx.compose.foundation.layout.PaddingValues(
@@ -68,23 +70,34 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .widthIn(max = 840.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.home_brand),
-                    modifier = Modifier.semantics { heading() },
-                    style = MaterialTheme.typography.headlineLarge,
-                )
-                Spacer(Modifier.weight(1f))
-                QuotaChip(
-                    quota = state.quota,
-                    isOfflineReady = state.isOfflineReady,
-                    onClick = onLifetimePro,
-                )
+            val headerModifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 840.dp)
+            if (useStackedHeader) {
+                Column(
+                    modifier = headerModifier,
+                    verticalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.small),
+                ) {
+                    HomeBrand()
+                    QuotaChip(
+                        quota = state.quota,
+                        isOfflineReady = state.isOfflineReady,
+                        onClick = onLifetimePro,
+                    )
+                }
+            } else {
+                Row(
+                    modifier = headerModifier,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    HomeBrand()
+                    Spacer(Modifier.weight(1f))
+                    QuotaChip(
+                        quota = state.quota,
+                        isOfflineReady = state.isOfflineReady,
+                        onClick = onLifetimePro,
+                    )
+                }
             }
         }
         item {
@@ -174,6 +187,15 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+private fun HomeBrand() {
+    Text(
+        text = stringResource(R.string.home_brand),
+        modifier = Modifier.semantics { heading() },
+        style = MaterialTheme.typography.headlineLarge,
+    )
 }
 
 @Composable
@@ -326,7 +348,9 @@ private fun RecentBillRow(bill: RecentBillUi) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Large font", showBackground = true, widthDp = 360, heightDp = 640, fontScale = 2f)
+@Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
 @Composable
 private fun HomeScreenPreview() {
     BillSliceTheme {
