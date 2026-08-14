@@ -24,3 +24,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "BillSlice"
 include(":app")
+include(":core:model")
+include(":core:domain")
+include(":feature:bill")
