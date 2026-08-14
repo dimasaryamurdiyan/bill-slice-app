@@ -62,7 +62,7 @@
   - Likely scope: `ARCHITECTURE.md`.
   - Verification: documentation/link review.
   - Depends on: `T-006`
-- [ ] `T-008` — Run targeted tests, compile, lint, and build
+- [x] `T-008` — Run targeted tests, compile, lint, and build
   - Covers: `AC-007`
   - Result: Affected tests/compilation plus repository tests, lint, and assembly pass.
   - Likely scope: verification and evidence.
