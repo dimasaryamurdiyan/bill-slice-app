@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+    <string name="settings_brand">BillSlice</string>
+    <string name="settings_brand_supporting">Fast splitting, stored locally</string>
+    <string name="default_currency">Default currency</string>
+    <string name="smart_scan_quota">Smart Scan quota</string>
+    <string name="quota_available">%1$d left • Resets %2$s</string>
+    <string name="quota_unavailable">Unavailable • Manual entry still works</string>
+    <string name="privacy">Privacy</string>
+    <string name="privacy_value">Receipt images stay on device</string>
+    <string name="upgrade_and_restore">Upgrade or restore</string>
+    <string name="lifetime_pro_price">Lifetime Pro • Rp79k</string>
+    <string name="lifetime_pro_active">Lifetime Pro active</string>
+    <string name="lifetime_pro_active_value">Thanks for supporting BillSlice</string>
+    <string name="purchase_state_unavailable">Purchases unavailable • Try again later</string>
+    <string name="app_info">App info</string>
+    <string name="version_build">Version %1$s • %2$s</string>
+    <string name="local_only_note">No account, no cloud sync. Bills remain on this device.</string>
+    <string name="open_setting">Open %1$s</string>
+</resources>

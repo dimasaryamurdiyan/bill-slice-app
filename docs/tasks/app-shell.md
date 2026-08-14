@@ -44,7 +44,7 @@
   - Likely scope: `:feature:home`, `:app`, resources, ViewModel/Compose tests.
   - Verification: feature tests and app compilation.
   - Depends on: `T-002`, `T-003`
-- [ ] `T-005` — Implement Settings state and screen
+- [x] `T-005` — Implement Settings state and screen
   - Covers: `FR-008`; `AC-005`
   - Result: Settings renders typed currency/quota/privacy/Pro/build states including unavailable dependencies.
   - Likely scope: `:feature:settings`, domain-facing summary interfaces/fakes, resources/tests.

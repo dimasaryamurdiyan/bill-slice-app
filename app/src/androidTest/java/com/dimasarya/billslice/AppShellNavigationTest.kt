@@ -36,7 +36,7 @@ class AppShellNavigationTest {
 
         composeRule.onNodeWithContentDescription("Settings").performClick()
 
-        composeRule.onNodeWithText("App preferences and privacy details will appear here.")
+        composeRule.onNodeWithText("Receipt images stay on device")
             .assertIsDisplayed()
     }
 }

@@ -32,6 +32,9 @@ import com.dimasarya.billslice.feature.bill.BillFlowEntryMode
 import com.dimasarya.billslice.feature.bill.BillFlowEntryScreen
 import com.dimasarya.billslice.feature.home.HomeScreen
 import com.dimasarya.billslice.feature.home.HomeUiState
+import com.dimasarya.billslice.feature.settings.BuildInfoUi
+import com.dimasarya.billslice.feature.settings.SettingsScreen
+import com.dimasarya.billslice.feature.settings.SettingsUiState
 import com.dimasarya.billslice.navigation.AppNavigationState
 import com.dimasarya.billslice.navigation.AppRoute
 import com.dimasarya.billslice.navigation.BillSliceFeatureEntries
@@ -77,10 +80,15 @@ fun BillSliceApp(
                 body = R.string.history_placeholder_body,
             )
         },
-        settings = {
-            PlaceholderScreen(
-                title = R.string.settings_placeholder_title,
-                body = R.string.settings_placeholder_body,
+        settings = { onLifetimePro ->
+            SettingsScreen(
+                state = SettingsUiState(
+                    buildInfo = BuildInfoUi(
+                        versionName = BuildConfig.VERSION_NAME,
+                        buildType = BuildConfig.BUILD_TYPE,
+                    ),
+                ),
+                onLifetimePro = onLifetimePro,
             )
         },
         scanReceipt = { onBack ->
