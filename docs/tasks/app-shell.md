@@ -1,6 +1,6 @@
 # App shell implementation plan
 
-- Status: Proposed
+- Status: Ready
 - Specification: [`docs/specs/app-shell.md`](../specs/app-shell.md)
 - Branch: `codex/app-shell`
 
