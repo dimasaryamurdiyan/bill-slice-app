@@ -20,16 +20,23 @@ private fun funnelSansFont(weight: FontWeight): Font = Font(
     ),
 )
 
-val FunnelSans = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-    FontFamily(
-        funnelSansFont(FontWeight.Medium),
-        funnelSansFont(FontWeight.SemiBold),
-        funnelSansFont(FontWeight.Bold),
-        funnelSansFont(FontWeight.ExtraBold),
-    )
+private fun compatibleFunnelSansFont(weight: FontWeight): Font = if (
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+) {
+    funnelSansFont(weight)
 } else {
-    FontFamily.SansSerif
+    Font(
+        resId = R.font.funnel_sans,
+        weight = weight,
+    )
 }
+
+val FunnelSans = FontFamily(
+    compatibleFunnelSansFont(FontWeight.Medium),
+    compatibleFunnelSansFont(FontWeight.SemiBold),
+    compatibleFunnelSansFont(FontWeight.Bold),
+    compatibleFunnelSansFont(FontWeight.ExtraBold),
+)
 
 val BillSliceTypography = Typography(
     displayLarge = TextStyle(

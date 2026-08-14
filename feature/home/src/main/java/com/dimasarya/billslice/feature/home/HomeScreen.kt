@@ -276,7 +276,7 @@ private fun HomeActionCard(
                 Text(title, style = MaterialTheme.typography.headlineMedium)
                 Text(
                     text = supporting,
-                    color = contentColor.copy(alpha = 0.72f),
+                    color = contentColor,
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -292,6 +292,7 @@ private fun EmptyRecentBills() {
             .fillMaxWidth()
             .widthIn(max = 840.dp),
         color = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurface,
         shape = MaterialTheme.shapes.medium,
     ) {
         Row(

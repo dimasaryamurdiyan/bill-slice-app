@@ -2,9 +2,21 @@ package com.dimasarya.billslice
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.History
@@ -13,7 +25,10 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
@@ -24,12 +39,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceThemeTokens
 import com.dimasarya.billslice.core.designsystem.theme.DeepInk
+import com.dimasarya.billslice.core.designsystem.theme.DeepEmerald
+import com.dimasarya.billslice.core.designsystem.theme.MutedInk
+import com.dimasarya.billslice.core.designsystem.theme.ReceiptMint
+import com.dimasarya.billslice.core.designsystem.theme.SubtleBorder
 import com.dimasarya.billslice.core.designsystem.theme.WarmCanvas
 import com.dimasarya.billslice.core.designsystem.theme.WarmSurface
 import com.dimasarya.billslice.feature.bill.BillFlowEntryMode
@@ -127,7 +151,39 @@ private fun AppNavigationShell(
     content: @Composable () -> Unit,
 ) {
     if (!navigationState.currentRoute.isTopLevel) {
-        content()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing),
+        ) {
+            content()
+        }
+        return
+    }
+
+    val isExpanded = currentWindowAdaptiveInfo()
+        .windowSizeClass
+        .isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND)
+
+    if (!isExpanded) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = WarmCanvas,
+            contentWindowInsets = WindowInsets.safeDrawing.only(
+                WindowInsetsSides.Horizontal + WindowInsetsSides.Top,
+            ),
+            bottomBar = {
+                BillSliceBottomNavigation(navigationState)
+            },
+        ) { contentPadding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding),
+            ) {
+                content()
+            }
+        }
         return
     }
 
@@ -137,7 +193,7 @@ private fun AppNavigationShell(
                 icon = {
                     Icon(
                         destination.icon,
-                        contentDescription = stringResource(destination.label),
+                        contentDescription = null,
                     )
                 },
                 label = { Text(stringResource(destination.label)) },
@@ -147,6 +203,7 @@ private fun AppNavigationShell(
         }
     }
     NavigationSuiteScaffold(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         navigationSuiteItems = navigationItems,
         navigationSuiteColors = NavigationSuiteDefaults.colors(
             shortNavigationBarContainerColor = WarmSurface,
@@ -160,6 +217,60 @@ private fun AppNavigationShell(
         ),
     ) {
         content()
+    }
+}
+
+@Composable
+private fun BillSliceBottomNavigation(navigationState: AppNavigationState) {
+    Surface(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .padding(horizontal = BillSliceThemeTokens.spacing.large, vertical = 8.dp)
+            .fillMaxWidth()
+            .height(64.dp)
+            .shadow(6.dp, MaterialTheme.shapes.extraLarge),
+        color = WarmSurface,
+        shape = MaterialTheme.shapes.extraLarge,
+        border = androidx.compose.foundation.BorderStroke(1.dp, SubtleBorder),
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TopLevelDestination.entries.forEach { destination ->
+                val isSelected = navigationState.currentRoute == destination.route
+                val contentColor = if (isSelected) DeepEmerald else MutedInk
+                Surface(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .selectable(
+                            selected = isSelected,
+                            role = Role.Tab,
+                            onClick = { navigationState.navigateTopLevel(destination.route) },
+                        )
+                        .semantics { selected = isSelected },
+                    color = if (isSelected) ReceiptMint else androidx.compose.ui.graphics.Color.Transparent,
+                    contentColor = contentColor,
+                    shape = MaterialTheme.shapes.extraLarge,
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Icon(
+                            imageVector = destination.icon,
+                            contentDescription = null,
+                            modifier = Modifier.height(21.dp),
+                        )
+                        Text(
+                            text = stringResource(destination.label),
+                            style = MaterialTheme.typography.labelSmall,
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 

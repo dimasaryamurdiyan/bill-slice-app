@@ -34,4 +34,42 @@ class SettingsScreenTest {
         composeRule.onNodeWithText("Upgrade or restore").performClick()
         assertTrue(openedPro)
     }
+
+    @Test
+    fun availableQuotaAndProOfferRenderTheirLiveValues() {
+        composeRule.setContent {
+            BillSliceTheme {
+                SettingsScreen(
+                    state = SettingsUiState(
+                        buildInfo = BuildInfoUi("1.0", "debug"),
+                        quota = QuotaSettingUiState.Available(5, "1 Sep"),
+                        pro = ProSettingUiState.Available,
+                    ),
+                    onLifetimePro = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("5 left • Resets 1 Sep").assertIsDisplayed()
+        composeRule.onNodeWithText("Lifetime Pro • Rp79k").assertIsDisplayed()
+    }
+
+    @Test
+    fun activeProStateRendersWithoutHidingOtherSettings() {
+        composeRule.setContent {
+            BillSliceTheme {
+                SettingsScreen(
+                    state = SettingsUiState(
+                        buildInfo = BuildInfoUi("1.0", "debug"),
+                        pro = ProSettingUiState.Active,
+                    ),
+                    onLifetimePro = {},
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("Lifetime Pro active").assertIsDisplayed()
+        composeRule.onNodeWithText("Thanks for supporting BillSlice").assertIsDisplayed()
+        composeRule.onNodeWithText("IDR").assertIsDisplayed()
+    }
 }

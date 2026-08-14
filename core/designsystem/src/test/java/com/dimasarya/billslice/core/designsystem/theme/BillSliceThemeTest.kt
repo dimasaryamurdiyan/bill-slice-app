@@ -1,7 +1,9 @@
 package com.dimasarya.billslice.core.designsystem.theme
 
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.luminance
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class BillSliceThemeTest {
@@ -17,5 +19,18 @@ class BillSliceThemeTest {
     @Test
     fun lightTheme_hasNoStarterPurple() {
         assertEquals(false, BillSliceLightColorScheme.primary.toArgb() == 0xFF6650A4.toInt())
+    }
+
+    @Test
+    fun semanticTextPairsMeetNormalTextContrast() {
+        assertTrue(contrast(MutedInk.luminance(), SoftSurface.luminance()) >= 4.5f)
+        assertTrue(contrast(DeepInk.luminance(), TableEmerald.luminance()) >= 4.5f)
+        assertTrue(contrast(DeepEmerald.luminance(), ReceiptMint.luminance()) >= 4.5f)
+    }
+
+    private fun contrast(first: Float, second: Float): Float {
+        val lighter = maxOf(first, second)
+        val darker = minOf(first, second)
+        return (lighter + 0.05f) / (darker + 0.05f)
     }
 }

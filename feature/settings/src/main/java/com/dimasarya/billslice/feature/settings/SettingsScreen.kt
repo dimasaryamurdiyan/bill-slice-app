@@ -3,12 +3,14 @@ package com.dimasarya.billslice.feature.settings
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -59,17 +61,24 @@ fun SettingsScreen(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(
             horizontal = BillSliceThemeTokens.spacing.screenHorizontal,
-            vertical = BillSliceThemeTokens.spacing.large,
+            vertical = 0.dp,
         ),
         verticalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.medium),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {
-            Text(
-                text = stringResource(R.string.settings_title),
-                modifier = Modifier.semantics { heading() },
-                style = MaterialTheme.typography.titleLarge,
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_title),
+                    modifier = Modifier.semantics { heading() },
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
         }
         item {
             Surface(
@@ -245,7 +254,7 @@ private fun SettingRow(
                 Text(label, style = MaterialTheme.typography.bodyLarge)
                 Text(
                     text = value,
-                    color = contentColor.copy(alpha = 0.7f),
+                    color = contentColor,
                     style = MaterialTheme.typography.labelMedium,
                 )
             }
