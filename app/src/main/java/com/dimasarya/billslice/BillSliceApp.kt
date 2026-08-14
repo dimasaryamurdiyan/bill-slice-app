@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +29,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceThemeTokens
+import com.dimasarya.billslice.core.designsystem.theme.DeepInk
+import com.dimasarya.billslice.core.designsystem.theme.WarmCanvas
+import com.dimasarya.billslice.core.designsystem.theme.WarmSurface
 import com.dimasarya.billslice.feature.bill.BillFlowEntryMode
 import com.dimasarya.billslice.feature.bill.BillFlowEntryScreen
 import com.dimasarya.billslice.feature.home.HomeScreen
@@ -142,7 +146,19 @@ private fun AppNavigationShell(
             )
         }
     }
-    NavigationSuiteScaffold(navigationSuiteItems = navigationItems) {
+    NavigationSuiteScaffold(
+        navigationSuiteItems = navigationItems,
+        navigationSuiteColors = NavigationSuiteDefaults.colors(
+            shortNavigationBarContainerColor = WarmSurface,
+            shortNavigationBarContentColor = DeepInk,
+            navigationBarContainerColor = WarmSurface,
+            navigationBarContentColor = DeepInk,
+            navigationRailContainerColor = WarmCanvas,
+            navigationRailContentColor = DeepInk,
+            navigationDrawerContainerColor = WarmSurface,
+            navigationDrawerContentColor = DeepInk,
+        ),
+    ) {
         content()
     }
 }

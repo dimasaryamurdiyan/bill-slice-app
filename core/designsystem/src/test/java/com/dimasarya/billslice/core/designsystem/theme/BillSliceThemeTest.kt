@@ -10,6 +10,8 @@ class BillSliceThemeTest {
         assertEquals(0xFF20C982.toInt(), BillSliceLightColorScheme.primary.toArgb())
         assertEquals(0xFFFAF9F6.toInt(), BillSliceLightColorScheme.background.toArgb())
         assertEquals(0xFF17211D.toInt(), BillSliceLightColorScheme.onBackground.toArgb())
+        assertEquals(0xFFFFFEFC.toInt(), BillSliceLightColorScheme.surfaceContainer.toArgb())
+        assertEquals(0xFFE5F9F0.toInt(), BillSliceLightColorScheme.secondaryContainer.toArgb())
     }
 
     @Test

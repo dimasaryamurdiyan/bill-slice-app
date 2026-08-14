@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -167,6 +168,7 @@ fun HomeScreen(
                     text = stringResource(R.string.see_all),
                     modifier = Modifier
                         .heightIn(min = 48.dp)
+                        .wrapContentHeight(Alignment.CenterVertically)
                         .clickable(
                             role = Role.Button,
                             onClickLabel = stringResource(R.string.see_all),

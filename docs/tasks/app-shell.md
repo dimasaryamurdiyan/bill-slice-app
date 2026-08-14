@@ -68,7 +68,7 @@
   - Likely scope: verification and evidence.
   - Verification: affected Gradle tasks; `./gradlew testDebugUnitTest lintDebug assembleDebug`.
   - Depends on: `T-007`
-- [ ] `T-009` — Inspect actual shell and capture screenshots
+- [x] `T-009` — Inspect actual shell and capture screenshots
   - Covers: `AC-001`, `AC-002`, `AC-004`–`AC-006`
   - Result: Splash/Home/Settings pass phone, large-font/landscape, tablet, and accessibility inspection; screenshots remain PR evidence only.
   - Likely scope: emulator/device evidence and evidenced fixes.

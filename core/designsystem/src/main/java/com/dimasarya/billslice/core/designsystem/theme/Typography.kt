@@ -1,19 +1,35 @@
 package com.dimasarya.billslice.core.designsystem.theme
 
+import android.os.Build
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.dimasarya.billslice.core.designsystem.R
 
-val FunnelSans = FontFamily(
-    Font(R.font.funnel_sans, weight = FontWeight.Medium),
-    Font(R.font.funnel_sans, weight = FontWeight.SemiBold),
-    Font(R.font.funnel_sans, weight = FontWeight.Bold),
-    Font(R.font.funnel_sans, weight = FontWeight.ExtraBold),
+@OptIn(ExperimentalTextApi::class)
+private fun funnelSansFont(weight: FontWeight): Font = Font(
+    resId = R.font.funnel_sans,
+    weight = weight,
+    variationSettings = FontVariation.Settings(
+        FontVariation.weight(weight.weight),
+    ),
 )
+
+val FunnelSans = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    FontFamily(
+        funnelSansFont(FontWeight.Medium),
+        funnelSansFont(FontWeight.SemiBold),
+        funnelSansFont(FontWeight.Bold),
+        funnelSansFont(FontWeight.ExtraBold),
+    )
+} else {
+    FontFamily.SansSerif
+}
 
 val BillSliceTypography = Typography(
     displayLarge = TextStyle(
