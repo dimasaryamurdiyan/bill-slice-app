@@ -1,6 +1,6 @@
 # BillSlice Architecture
 
-Last updated: 2026-08-12
+Last updated: 2026-08-14
 
 This document defines the target multi-module architecture for BillSlice. It is based on `PRODUCT.md` and the project-local Modern Android Development skill.
 
@@ -8,18 +8,28 @@ No code module should be created only because the architecture names it. Modules
 
 ## Current Implementation
 
-The implemented skeleton contains one compilable inward dependency path:
+The implemented app shell contains these inward dependency paths:
 
 ```text
-:app -> :feature:bill -> :core:domain -> :core:model
-                     \-> :core:model
+:app -> :feature:home -> :core:designsystem
+     -> :feature:settings -> :core:designsystem
+     -> :feature:bill -> :core:designsystem
+                      -> :core:domain -> :core:model
+                      -> :core:model
+     -> :core:designsystem
+
+:core:ui -> :core:designsystem
 ```
 
-- `:app` owns application startup, the top-level theme, and feature wiring.
-- `:feature:bill` owns the current placeholder Compose content.
+- `:app` owns `MainActivity`, local startup states, typed Navigation 3 routes, adaptive top-level navigation, theme entry, and feature wiring.
+- `:feature:home` owns the offline-ready Home UI, optional quota display, empty/recent bill summaries, and bill-flow navigation intents.
+- `:feature:settings` owns typed Settings state and UI for currency, quota, privacy, Pro/restore availability, and build information.
+- `:feature:bill` owns focused scan/manual entry placeholders; bill editing and calculation remain unimplemented.
+- `:core:designsystem` owns the light-only BillSlice palette, bundled Funnel Sans typography, shapes, spacing, and semantic theme tokens.
+- `:core:ui` is present but intentionally contains no shared component yet; no UI pattern has two proven consumers.
 - `:core:domain` and `:core:model` are Android-free Kotlin modules reserved for approved product behavior.
 
-All other modules in the graph below remain targets and should be introduced only when an approved product slice needs them.
+History is currently an app-owned navigation placeholder, not a persistence implementation or `:feature:history` module. All other modules in the graph below remain targets and should be introduced only when an approved product slice needs them.
 
 ## Architecture Principles
 
@@ -233,10 +243,11 @@ Settings and diagnostics.
 
 Responsibilities:
 
-- Currency default display later.
-- Restore purchase entry.
-- Privacy/support copy.
-- App version/build info.
+- Default currency display.
+- Typed Smart Scan quota availability.
+- Typed Lifetime Pro/restore availability.
+- Receipt-image privacy and local-only copy.
+- App version/build information.
 
 ## Core Modules
 

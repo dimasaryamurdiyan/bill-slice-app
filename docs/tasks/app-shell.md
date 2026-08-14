@@ -56,7 +56,7 @@
   - Likely scope: affected tests and narrowly evidenced UI fixes.
   - Verification: UI/integration tests and configuration overrides.
   - Depends on: `T-004`, `T-005`
-- [ ] `T-007` — Update implemented architecture status
+- [x] `T-007` — Update implemented architecture status
   - Covers: `FR-004`–`FR-007`; `AC-003`
   - Result: `ARCHITECTURE.md` distinguishes implemented shell/design modules from target modules.
   - Likely scope: `ARCHITECTURE.md`.
