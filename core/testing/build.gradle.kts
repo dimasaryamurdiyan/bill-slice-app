@@ -8,6 +8,6 @@ kotlin {
 
 dependencies {
     implementation(project(":core:model"))
-    testImplementation(libs.junit)
-    testImplementation(project(":core:testing"))
+    implementation(project(":core:domain"))
+    implementation(libs.junit)
 }
