@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_entry_title">Scan Receipt</string>
+    <string name="scan_entry_body">Receipt capture starts here. Camera and Smart Scan arrive in their dedicated feature.</string>
+    <string name="manual_entry_title">Enter Manually</string>
+    <string name="manual_entry_body">Manual bill entry starts here and remains available without a network connection.</string>
+    <string name="back_to_home">Back to Home</string>
+</resources>

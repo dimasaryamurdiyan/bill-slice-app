@@ -1,6 +1,6 @@
 # Manual bill splitting implementation plan
 
-- Status: Proposed
+- Status: Ready
 - Specification: [`docs/specs/manual-bill-splitting.md`](../specs/manual-bill-splitting.md)
 - Branch: `codex/manual-bill-splitting`
 

@@ -26,4 +26,8 @@ rootProject.name = "BillSlice"
 include(":app")
 include(":core:model")
 include(":core:domain")
+include(":core:designsystem")
+include(":core:ui")
 include(":feature:bill")
+include(":feature:home")
+include(":feature:settings")

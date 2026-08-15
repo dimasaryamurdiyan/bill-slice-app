@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BillSlice" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorAccent">@color/billslice_deep_ink</item>
+        <item name="android:fontFamily">@font/funnel_sans</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:navigationBarColor">@color/billslice_warm_canvas</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

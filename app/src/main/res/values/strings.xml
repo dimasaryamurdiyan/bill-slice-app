@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">BillSlice</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+    <string name="history_placeholder_title">History</string>
+    <string name="history_placeholder_body">Your saved bills will appear here when local history is implemented.</string>
+    <string name="lifetime_pro_placeholder_title">Lifetime Pro</string>
+    <string name="lifetime_pro_placeholder_body">Purchase handling is outside the app-shell feature.</string>
+    <string name="startup_error_title">BillSlice couldn’t finish starting</string>
+    <string name="startup_error_body">Your data is safe. Try the local startup check again.</string>
+    <string name="startup_retry">Try again</string>
+    <string name="startup_config_error_title">BillSlice needs a configuration fix</string>
+    <string name="startup_config_error_body">This build can’t start safely. Install a correctly configured build and try again.</string>
+    <string name="back">Back</string>
+    <string name="splash_logo_description">BillSlice receipt logo</string>
+    <string name="splash_tagline">Split bills, not friendships.</string>
+    <string name="splash_supporting">Scan, review, share.</string>
+    <string name="splash_privacy">Private by default</string>
 </resources>
