@@ -17,7 +17,6 @@ import java.util.UUID
 
 @Composable
 fun ManualBillSplitFlowScreen(
-    onBack: () -> Unit,
     modifier: Modifier = Modifier,
     initialDraft: BillDraft? = null,
     viewModel: BillFlowViewModel = remember {
@@ -27,6 +26,7 @@ fun ManualBillSplitFlowScreen(
             BillFlowViewModel(initialDraft = BillDraft(id = UUID.randomUUID().toString()))
         }
     },
+    onBack: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
 
