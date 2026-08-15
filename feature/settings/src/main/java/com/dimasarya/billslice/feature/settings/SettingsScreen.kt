@@ -22,7 +22,7 @@ import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.CurrencyExchange
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.ReceiptLong
+import androidx.compose.material.icons.rounded.DocumentScanner
 import androidx.compose.material.icons.rounded.Shield
 import androidx.compose.material.icons.rounded.WorkspacePremium
 import androidx.compose.material3.Icon
@@ -124,7 +124,9 @@ fun SettingsScreen(
                 QuotaSettingUiState.Unavailable -> stringResource(R.string.quota_unavailable)
             }
             SettingRow(
-                icon = Icons.Rounded.ReceiptLong,
+                icon = Icons.Rounded.DocumentScanner,
+                iconColor = DeepEmerald,
+                iconSize = 21.dp,
                 label = stringResource(R.string.smart_scan_quota),
                 value = quotaValue,
                 onClick = onQuota,
@@ -217,6 +219,8 @@ private fun SettingRow(
     value: String,
     containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
+    iconColor: Color = contentColor,
+    iconSize: androidx.compose.ui.unit.Dp = 24.dp,
     border: BorderStroke? = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
     onClick: (() -> Unit)?,
 ) {
@@ -245,7 +249,12 @@ private fun SettingRow(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(icon, contentDescription = null, modifier = Modifier.size(24.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(iconSize),
+                tint = iconColor,
+            )
             Spacer(Modifier.size(BillSliceThemeTokens.spacing.medium))
             Column(
                 modifier = Modifier.weight(1f),

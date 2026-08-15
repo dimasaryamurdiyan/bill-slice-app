@@ -19,8 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CameraAlt
-import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material.icons.rounded.DocumentScanner
+import androidx.compose.material.icons.rounded.EditNote
 import androidx.compose.material.icons.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Icon
@@ -131,7 +131,9 @@ fun HomeScreen(
             HomeActionCard(
                 title = stringResource(R.string.scan_receipt),
                 supporting = stringResource(R.string.scan_receipt_supporting),
-                icon = Icons.Rounded.CameraAlt,
+                icon = Icons.Rounded.DocumentScanner,
+                iconColor = DeepInk,
+                iconSize = 34.dp,
                 containerColor = TableEmerald,
                 contentColor = DeepInk,
                 minHeight = 104.dp,
@@ -143,7 +145,9 @@ fun HomeScreen(
             HomeActionCard(
                 title = stringResource(R.string.enter_manually),
                 supporting = stringResource(R.string.enter_manually_supporting),
-                icon = Icons.Rounded.Edit,
+                icon = Icons.Rounded.EditNote,
+                iconColor = TableEmerald,
+                iconSize = 30.dp,
                 containerColor = TableCharcoal,
                 contentColor = WarmSurface,
                 minHeight = 82.dp,
@@ -245,6 +249,8 @@ private fun HomeActionCard(
     title: String,
     supporting: String,
     icon: ImageVector,
+    iconColor: Color,
+    iconSize: androidx.compose.ui.unit.Dp,
     containerColor: Color,
     contentColor: Color,
     minHeight: androidx.compose.ui.unit.Dp,
@@ -280,7 +286,12 @@ private fun HomeActionCard(
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
-            Icon(icon, contentDescription = null, modifier = Modifier.size(32.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(iconSize),
+                tint = iconColor,
+            )
         }
     }
 }
