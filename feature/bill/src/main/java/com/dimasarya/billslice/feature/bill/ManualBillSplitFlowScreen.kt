@@ -6,7 +6,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
 import com.dimasarya.billslice.core.model.BillDraft
+import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
 import com.dimasarya.billslice.feature.bill.screens.AddPeopleContent
 import com.dimasarya.billslice.feature.bill.screens.AssignItemsContent
 import com.dimasarya.billslice.feature.bill.screens.CalculationSummaryContent
@@ -95,3 +98,17 @@ fun ManualBillSplitFlowScreen(
         }
     }
 }
+
+@Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Large font", showBackground = true, widthDp = 360, heightDp = 640, fontScale = 2f)
+@Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
+@Composable
+private fun ManualBillSplitFlowScreenPreview() {
+    BillSliceTheme {
+        ManualBillSplitFlowScreen(
+            initialDraft = CanonicalBillFixtures.createCanonicalDraft(),
+            onBack = {},
+        )
+    }
+}
+

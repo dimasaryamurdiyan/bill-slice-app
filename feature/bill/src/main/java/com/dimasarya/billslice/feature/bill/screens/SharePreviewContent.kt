@@ -1,6 +1,11 @@
 package com.dimasarya.billslice.feature.bill.screens
 
 import android.content.ClipData
+import androidx.compose.ui.tooling.preview.Preview
+import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
+import com.dimasarya.billslice.core.domain.CalculateBillSplitUseCase
+import com.dimasarya.billslice.core.domain.GenerateShareTextUseCase
+import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -303,3 +308,26 @@ fun SharePreviewContent(
         )
     }
 }
+
+@Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Large font", showBackground = true, widthDp = 360, heightDp = 640, fontScale = 2f)
+@Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
+@Composable
+private fun SharePreviewContentPreview() {
+    val draft = CanonicalBillFixtures.createCanonicalDraft()
+    val calc = CalculateBillSplitUseCase()(draft)
+    val shareText = GenerateShareTextUseCase()(calc, draft.merchantName)
+    BillSliceTheme {
+        SharePreviewContent(
+            state = com.dimasarya.billslice.feature.bill.BillFlowUiState(
+                draft = draft,
+                calculationResult = calc,
+                shareText = shareText,
+            ),
+            onEvent = {},
+            onBack = {},
+            onFinishFlow = {},
+        )
+    }
+}
+

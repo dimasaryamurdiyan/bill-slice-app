@@ -1,6 +1,10 @@
 package com.dimasarya.billslice.feature.bill.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.ui.tooling.preview.Preview
+import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
+import com.dimasarya.billslice.core.domain.CalculateBillSplitUseCase
+import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -377,3 +381,23 @@ private fun BreakdownRow(
         )
     }
 }
+
+@Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
+@Preview(name = "Large font", showBackground = true, widthDp = 360, heightDp = 640, fontScale = 2f)
+@Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
+@Composable
+private fun CalculationSummaryContentPreview() {
+    val draft = CanonicalBillFixtures.createCanonicalDraft()
+    val calc = CalculateBillSplitUseCase()(draft)
+    BillSliceTheme {
+        CalculationSummaryContent(
+            state = com.dimasarya.billslice.feature.bill.BillFlowUiState(
+                draft = draft,
+                calculationResult = calc,
+            ),
+            onEvent = {},
+            onBack = {},
+        )
+    }
+}
+
