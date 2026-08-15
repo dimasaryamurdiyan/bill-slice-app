@@ -1,6 +1,6 @@
 # Smart Scan implementation plan
 
-- Status: Proposed
+- Status: Ready
 - Specification: [`docs/specs/smart-scan.md`](../specs/smart-scan.md)
 - Branch: `codex/smart-scan`
 
