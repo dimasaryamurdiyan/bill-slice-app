@@ -209,7 +209,7 @@ Deterministic fixture:
 ```text
 Nasi Goreng Rp40.000 -> Dimas
 Chicken Steak Rp60.000 -> Arya
-Pizza Rp90.000 -> Dimas + Budi
+Pizza Rp90.000 -> Budi
 Service 5%
 Tax 10%
 Total Rp219.450
@@ -218,9 +218,9 @@ Total Rp219.450
 Expected:
 
 ```text
-Dimas: Rp98.175
+Dimas: Rp46.200
 Arya: Rp69.300
-Budi: Rp51.975
+Budi: Rp103.950
 Combined: Rp219.450
 ```
 

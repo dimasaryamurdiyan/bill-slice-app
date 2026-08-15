@@ -666,9 +666,9 @@ Deliver:
 - Unit tests for expected split:
 
 ```text
-Dimas: Rp98.175
+Dimas: Rp46.200
 Arya: Rp69.300
-Budi: Rp51.975
+Budi: Rp103.950
 Combined: Rp219.450
 ```
 
