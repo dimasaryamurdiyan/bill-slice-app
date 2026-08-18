@@ -26,7 +26,7 @@ Approved skeleton and app-shell theme/interfaces; approved one-owner spec; clean
 - [x] `T-002` — Correct all shared-item fixtures/contracts
   - Covers: `FR-005`; `AC-003`, `AC-008`
   - Result: Repository and Pencil sample content use the approved one-owner fixture without visual redesign.
-  - Likely scope: `PRODUCT.md`, product plan, `RTK.md`, `ARCHITECTURE.md`, `billslice.pen`, fixtures.
+  - Likely scope: `PRODUCT.md`, product plan, `AGENTS.md`, `ARCHITECTURE.md`, `billslice.pen`, fixtures.
   - Verification: text search, Pencil inspection, doc diff.
   - Depends on: `T-001`
 - [x] `T-003` — Implement exact models and typed validation test-first
