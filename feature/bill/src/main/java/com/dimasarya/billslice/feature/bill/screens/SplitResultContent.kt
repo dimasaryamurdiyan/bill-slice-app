@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
 import com.dimasarya.billslice.core.domain.CalculateBillSplitUseCase
 import com.dimasarya.billslice.core.domain.GenerateShareTextUseCase
-import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
+import com.dimasarya.billslice.feature.bill.SampleBillData
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -341,7 +341,7 @@ private fun PersonResultRow(split: ParticipantSplit) {
 @Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
 @Composable
 private fun SplitResultContentPreview() {
-    val draft = CanonicalBillFixtures.createCanonicalDraft()
+    val draft = SampleBillData.createSampleDraft()
     val calc = CalculateBillSplitUseCase()(draft)
     val shareText = GenerateShareTextUseCase()(calc, draft.merchantName)
     BillSliceTheme {

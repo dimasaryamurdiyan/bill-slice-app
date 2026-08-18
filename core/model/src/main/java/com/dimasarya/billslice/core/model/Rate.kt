@@ -9,6 +9,9 @@ data class Rate(
     val isZero: Boolean
         get() = basisPoints == 0L
 
+    val isPositive: Boolean
+        get() = basisPoints > 0L
+
     val isNegative: Boolean
         get() = basisPoints < 0L
 
@@ -17,6 +20,12 @@ data class Rate(
 
     val percentageBigDecimal: BigDecimal
         get() = BigDecimal(basisPoints).divide(BigDecimal(100), 4, RoundingMode.HALF_UP)
+
+    val multiplierDouble: Double
+        get() = basisPoints.toDouble() / 10000.0
+
+    val multiplierBigDecimal: BigDecimal
+        get() = BigDecimal(basisPoints).divide(BigDecimal(10000), 8, RoundingMode.HALF_UP)
 
     fun format(): String {
         return if (basisPoints % 100L == 0L) {
@@ -32,6 +41,10 @@ data class Rate(
     companion object {
         val ZERO = Rate(0L)
 
+        fun fromBasisPoints(basisPoints: Long): Rate {
+            return Rate(basisPoints)
+        }
+
         fun fromPercentage(percentage: Int): Rate {
             return Rate(percentage.toLong() * 100L)
         }
@@ -41,12 +54,17 @@ data class Rate(
         }
 
         fun fromPercentage(percentage: Double): Rate {
-            val bp = (percentage * 100.0 + 0.5).toLong()
+            val bp = BigDecimal.valueOf(percentage)
+                .multiply(BigDecimal(100))
+                .setScale(0, RoundingMode.HALF_UP)
+                .toLong()
             return Rate(bp)
         }
 
         fun fromPercentage(percentage: BigDecimal): Rate {
-            val bp = percentage.multiply(BigDecimal(100)).setScale(0, RoundingMode.HALF_UP).toLong()
+            val bp = percentage.multiply(BigDecimal(100))
+                .setScale(0, RoundingMode.HALF_UP)
+                .toLong()
             return Rate(bp)
         }
     }

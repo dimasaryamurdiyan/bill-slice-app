@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
 import com.dimasarya.billslice.core.model.BillDraft
-import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
 import com.dimasarya.billslice.feature.bill.screens.AddPeopleContent
 import com.dimasarya.billslice.feature.bill.screens.AssignItemsContent
 import com.dimasarya.billslice.feature.bill.screens.CalculationSummaryContent
@@ -106,7 +105,7 @@ fun ManualBillSplitFlowScreen(
 private fun ManualBillSplitFlowScreenPreview() {
     BillSliceTheme {
         ManualBillSplitFlowScreen(
-            initialDraft = CanonicalBillFixtures.createCanonicalDraft(),
+            initialDraft = SampleBillData.createSampleDraft(),
             onBack = {},
         )
     }

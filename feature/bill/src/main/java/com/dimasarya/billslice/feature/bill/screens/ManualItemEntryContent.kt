@@ -3,7 +3,7 @@ package com.dimasarya.billslice.feature.bill.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.tooling.preview.Preview
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
-import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
+import com.dimasarya.billslice.feature.bill.SampleBillData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -741,7 +741,7 @@ private fun ManualItemEntryContentPreview() {
     BillSliceTheme {
         ManualItemEntryContent(
             state = com.dimasarya.billslice.feature.bill.BillFlowUiState(
-                draft = CanonicalBillFixtures.createCanonicalDraft(),
+                draft = SampleBillData.createSampleDraft(),
             ),
             onEvent = {},
             onBack = {},

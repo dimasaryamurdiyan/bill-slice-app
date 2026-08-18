@@ -4,7 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.ui.tooling.preview.Preview
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
 import com.dimasarya.billslice.core.domain.CalculateBillSplitUseCase
-import com.dimasarya.billslice.core.testing.CanonicalBillFixtures
+import com.dimasarya.billslice.feature.bill.SampleBillData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -387,7 +387,7 @@ private fun BreakdownRow(
 @Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
 @Composable
 private fun CalculationSummaryContentPreview() {
-    val draft = CanonicalBillFixtures.createCanonicalDraft()
+    val draft = SampleBillData.createSampleDraft()
     val calc = CalculateBillSplitUseCase()(draft)
     BillSliceTheme {
         CalculationSummaryContent(
