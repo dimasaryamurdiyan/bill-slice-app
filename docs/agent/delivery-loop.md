@@ -15,7 +15,7 @@
 ### Independent diff review
 
 - At each review point required by the applicable feature workflow or branch lifecycle, wait for local gates to pass, then delegate a read-only review to a fresh reviewer agent that did not implement the change.
-- Start the reviewer without inherited implementation conversation. Provide only the request or approved spec/task, applicable repository standards, complete diff, and verification evidence.
+- Start the reviewer without inherited implementation conversation. Provide only the request or approved spec/task, applicable repository standards, complete diff, and verification evidence; for a resolution recheck, also provide the exact prior finding and its resolution evidence.
 - Review the complete merge-base-to-HEAD diff along two axes: requested specification and repository standards.
 - P0/P1 correctness, security, privacy, data-loss, architecture, or acceptance failures block readiness.
 - P2 maintainability and test gaps introduced by the PR block readiness. P3 suggestions and unrelated pre-existing issues do not block.
