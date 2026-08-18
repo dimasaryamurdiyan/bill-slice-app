@@ -126,7 +126,7 @@ fun BillSliceApp(
             BillFlowEntryScreen(BillFlowEntryMode.Scan, onBack = onBack)
         },
         manualEntry = { onBack ->
-            BillFlowEntryScreen(BillFlowEntryMode.Manual, onBack = onBack)
+            com.dimasarya.billslice.feature.bill.ManualBillSplitFlowScreen(onBack = onBack)
         },
         lifetimePro = { onBack ->
             PlaceholderScreen(

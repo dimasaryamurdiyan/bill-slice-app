@@ -826,7 +826,7 @@
                       "id": "KfqHi",
                       "name": "Result Person Total",
                       "fill": "$green-dark",
-                      "content": "Rp98.175",
+                      "content": "Rp46.200",
                       "fontFamily": "$font",
                       "fontSize": 16,
                       "fontWeight": "800"
@@ -5651,7 +5651,7 @@
                   "id": "X7mMOB",
                   "name": "Dimas Result Total",
                   "fill": "$green-dark",
-                  "content": "Rp98.175",
+                  "content": "Rp46.200",
                   "fontFamily": "$font",
                   "fontSize": 17,
                   "fontWeight": "850"
@@ -5809,7 +5809,7 @@
                   "id": "EGV5z",
                   "name": "Budi Result Total",
                   "fill": "$ink",
-                  "content": "Rp51.975",
+                  "content": "Rp103.950",
                   "fontFamily": "$font",
                   "fontSize": 17,
                   "fontWeight": "850"
@@ -6133,7 +6133,7 @@
                   "id": "BRbbD",
                   "name": "Dimas Share Value",
                   "fill": "$ink",
-                  "content": "Rp98.175",
+                  "content": "Rp46.200",
                   "fontFamily": "$font",
                   "fontSize": 14,
                   "fontWeight": "750"
@@ -6191,7 +6191,7 @@
                   "id": "zEUuA",
                   "name": "Budi Share Value",
                   "fill": "$ink",
-                  "content": "Rp51.975",
+                  "content": "Rp103.950",
                   "fontFamily": "$font",
                   "fontSize": 14,
                   "fontWeight": "750"
