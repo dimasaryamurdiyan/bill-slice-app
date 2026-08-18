@@ -78,7 +78,7 @@ Keep the always-loaded context small. Read each playbook below only when its tri
 
 - Any material repository change: read [`docs/agent/outcome-contract.md`](docs/agent/outcome-contract.md), [`docs/agent/delivery-loop.md`](docs/agent/delivery-loop.md), [`docs/agent/verification.md`](docs/agent/verification.md), [`docs/agent/operations.md`](docs/agent/operations.md), and [`docs/agent/handoff.md`](docs/agent/handoff.md). Material changes include executable code, tests, resources, manifests, build configuration, CI, repository policy, architecture/product contracts, and security/privacy documentation.
 - Spec- and task-driven feature work: also read [`docs/agent/feature-workflow.md`](docs/agent/feature-workflow.md).
-- Writing, reviewing, or refactoring Android source or build code: also read [`docs/agent/android-engineering.md`](docs/agent/android-engineering.md).
+- Writing, reviewing, or refactoring source code, tests, resources, manifests, or build code—including pure Kotlin domain/model work: also read [`docs/agent/android-engineering.md`](docs/agent/android-engineering.md).
 - Documentation-only changes that are not material: read [`docs/agent/verification.md`](docs/agent/verification.md), [`docs/agent/operations.md`](docs/agent/operations.md), and [`docs/agent/handoff.md`](docs/agent/handoff.md).
 - Read-only diagnosis, review, research, planning, or status work: read the domain playbook relevant to the inspected material; do not load material-change playbooks solely because repository files are being read.
 - Before any external effect, sandbox approval, credential-dependent action, or destructive operation: read [`docs/agent/operations.md`](docs/agent/operations.md).

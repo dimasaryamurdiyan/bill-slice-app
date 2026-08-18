@@ -14,7 +14,7 @@
 
 ### Independent diff review
 
-- At each review point required by the risk-based cadence above, wait for local gates to pass, then delegate a read-only review to a fresh reviewer agent that did not implement the change.
+- At each review point required by the applicable feature workflow or branch lifecycle, wait for local gates to pass, then delegate a read-only review to a fresh reviewer agent that did not implement the change.
 - Review the complete merge-base-to-HEAD diff along two axes: requested specification and repository standards.
 - P0/P1 correctness, security, privacy, data-loss, architecture, or acceptance failures block readiness.
 - P2 maintainability and test gaps introduced by the PR block readiness. P3 suggestions and unrelated pre-existing issues do not block.
@@ -27,7 +27,7 @@
 - Read-only diagnosis, review, research, planning, status, and explanation do not create branches or PRs. Minor incidental documentation changes create a PR only when requested.
 - For a material non-feature task, create or reuse a `codex/<task-name>` branch and open a draft PR automatically. Spec-driven feature work uses the single branch and draft PR declared by its task plan.
 - Make small coherent commits at meaningful checkpoints. Temporary fix commits are acceptable while the PR is draft; recommend squash merge, but only the human decides whether and how to merge.
-- New commits invalidate affected local and CI evidence; rerun those gates in proportion to the change. Repeat independent review according to the risk-based cadence above and always after the final non-metadata change before readiness.
+- New commits invalidate affected local and CI evidence; rerun those gates in proportion to the change. Repeat independent review according to the applicable feature workflow and always after the final non-metadata change before readiness.
 - Never merge a PR. Mark it ready only after every applicable completion criterion passes.
 - This repository needs an explicitly approved baseline commit on `main` before the automatic branch/PR lifecycle can begin. Do not hide the uncommitted baseline inside a feature PR.
 
@@ -36,4 +36,3 @@ The PR description must contain the outcome contract, change summary, verificati
 ### Human merge gate
 
 Treat the loop as operational only when `main` branch protection requires the `verify` GitHub Actions check, at least one approving human review, dismissal of stale approvals, and resolution of review conversations. Block direct and force pushes to `main` and do not allow the implementing agent to bypass protection.
-
