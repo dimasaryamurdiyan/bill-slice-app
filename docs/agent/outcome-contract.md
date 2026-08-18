@@ -30,4 +30,3 @@ Before implementation, state:
 - **Verification:** evidence mapped to each acceptance criterion.
 
 Infer this contract from the request and proceed unless ambiguity would materially change the result. Human judgment owns intent and final merge readiness; AI generation owns implementation and deterministic verification.
-

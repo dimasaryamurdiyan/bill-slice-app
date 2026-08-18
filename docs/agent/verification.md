@@ -41,4 +41,3 @@ Before declaring completion:
 - Confirm every requested behavior is implemented and documented product invariants still hold.
 - Confirm new dependencies and permissions are necessary and narrowly scoped.
 - Report exactly which checks passed, failed, or were not run, including the reason. Never imply a check ran when it did not.
-

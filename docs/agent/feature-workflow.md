@@ -43,4 +43,3 @@ After each slice, run targeted verification and a focused self-review. Require a
 For the terminal transition, first obtain green CI and final review on the completed implementation head. Then commit the completion-checklist and `In Progress` to `Complete` metadata update, push it, and require CI to pass again on that exact commit before marking the PR ready. The metadata commit needs documentation checks and exact-head CI; repeat independent review only if it changes more than completion metadata.
 
 An approved spec is immutable during implementation. If the outcome, acceptance criteria, business rules, privacy/security contract, or non-goals must change, keep the PR draft, stop the affected slice, propose the exact revision, and wait for human reapproval. Task-level implementation details such as file paths, commands, or dependency ordering may be corrected in the same PR when the approved behavior does not change; explain the drift in the PR.
-

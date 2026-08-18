@@ -58,4 +58,3 @@ Pizza Rp90.000 -> Budi
 Service 5%, Tax 10%, Total Rp219.450
 Expected: Dimas Rp46.200, Arya Rp69.300, Budi Rp103.950
 ```
-
