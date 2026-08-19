@@ -1,6 +1,6 @@
 # Local bill history implementation plan
 
-- Status: Proposed
+- Status: Ready
 - Specification: [`docs/specs/local-bill-history.md`](../specs/local-bill-history.md)
 - Branch: `codex/local-bill-history`
 
