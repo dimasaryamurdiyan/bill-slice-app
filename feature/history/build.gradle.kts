@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dimasarya.billslice.feature.home"
+    namespace = "com.dimasarya.billslice.feature.history"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -31,16 +31,20 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(project(":core:testing"))
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(project(":core:testing"))
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }

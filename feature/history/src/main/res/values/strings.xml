@@ -1,0 +1,12 @@
+<resources>
+    <string name="history_title">History</string>
+    <string name="history_empty_title">No bills yet</string>
+    <string name="history_empty_body">Split a bill to see it in your offline history.</string>
+    <string name="history_pro_teaser_title">Unlock unlimited history</string>
+    <string name="history_pro_teaser_body">Free tier keeps the 5 newest bills visible. Get Lifetime Pro to access your complete local history.</string>
+    <string name="history_pro_cta">Upgrade to Lifetime Pro</string>
+    <string name="history_people_count">%1$d people</string>
+    <string name="history_error_title">Couldn\'t load history</string>
+    <string name="history_error_retry">Retry</string>
+    <string name="history_item_description">%1$s, %2$s, %3$d people, %4$s. Double tap to reopen.</string>
+</resources>

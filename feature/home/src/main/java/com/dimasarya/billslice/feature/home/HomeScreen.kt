@@ -59,6 +59,7 @@ fun HomeScreen(
     onEnterManually: () -> Unit,
     onHistory: () -> Unit,
     onLifetimePro: () -> Unit,
+    onOpenBill: (String) -> Unit = {},
 ) {
     val useStackedHeader = LocalDensity.current.fontScale >= 1.5f
     LazyColumn(
@@ -189,7 +190,7 @@ fun HomeScreen(
             item { EmptyRecentBills() }
         } else {
             items(state.recentBills, key = RecentBillUi::id) { bill ->
-                RecentBillRow(bill)
+                RecentBillRow(bill = bill, onClick = { onOpenBill(bill.id) })
             }
         }
     }
@@ -332,11 +333,20 @@ private fun EmptyRecentBills() {
 }
 
 @Composable
-private fun RecentBillRow(bill: RecentBillUi) {
+private fun RecentBillRow(
+    bill: RecentBillUi,
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .widthIn(max = 840.dp),
+            .widthIn(max = 840.dp)
+            .clickable(
+                role = Role.Button,
+                onClickLabel = stringResource(R.string.recent_bills),
+                onClick = onClick,
+            ),
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.small,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),

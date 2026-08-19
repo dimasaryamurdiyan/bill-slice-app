@@ -21,7 +21,7 @@ data object SettingsRoute : AppRoute
 data object ScanReceiptRoute : AppRoute
 
 @Serializable
-data object ManualEntryRoute : AppRoute
+data class ManualEntryRoute(val billId: String? = null) : AppRoute
 
 @Serializable
 data object LifetimeProRoute : AppRoute
