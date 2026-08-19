@@ -14,7 +14,7 @@
 ## Preconditions
 
 - Human approval of [`docs/specs/skeleton-architecture.md`](../specs/skeleton-architecture.md), including the four-module scope and deferred `:core:testing` module.
-- An explicitly approved baseline commit on `main` and a clean worktree, as required by [`RTK.md`](../../RTK.md). At plan creation, the observed baseline is `3d751a8 chore: establish project baseline` and the worktree is clean; recheck before implementation.
+- An explicitly approved baseline commit on `main` and a clean worktree, as required by [`docs/agent/delivery-loop.md`](../agent/delivery-loop.md). At plan creation, the observed baseline is `3d751a8 chore: establish project baseline` and the worktree is clean; recheck before implementation.
 - A `codex/skeleton-architecture` branch created from that baseline and a draft PR opened before material build/source changes.
 - JDK/Android SDK support for the repository’s pinned AGP 9.2.1, Gradle 9.4.1, Kotlin 2.2.10, compile SDK 36.1, and min SDK 24 configuration.
 - Access to Gradle’s existing user cache or permission to resolve declared build dependencies. No product credential, backend, camera, receipt fixture, signing secret, or external-service account is required.

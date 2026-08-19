@@ -56,7 +56,7 @@ Given code in `:core:model` or `:core:domain` attempts to depend on Android UI, 
 
 This slice implements no bill model, bill calculation, receipt flow, or saved draft. The following established rules constrain ownership and future work but are not claims that those behaviors exist after this slice:
 
-- Bill math, currency, payer, participant, receipt-total validation, proportional allocation, and rounding behavior belong in Android-free model/domain code and must use deterministic exact money rather than `Float` or `Double` ([`RTK.md`](../../RTK.md), “Product-domain invariants”; [`docs/product-plan.md`](../product-plan.md), “Currency” and “Bill Math”). This slice deliberately does not choose a money representation or rounding interface.
+- Bill math, currency, payer, participant, receipt-total validation, proportional allocation, and rounding behavior belong in Android-free model/domain code and must use deterministic exact money rather than `Float` or `Double` ([`docs/agent/android-engineering.md`](../agent/android-engineering.md), “Product-domain invariants”; [`docs/product-plan.md`](../product-plan.md), “Currency” and “Bill Math”). This slice deliberately does not choose a money representation or rounding interface.
 - Manual receipt entry remains a first-class fallback and must not later be made conditional on OCR or AI success ([`PRODUCT.md`](../../PRODUCT.md), “v0.1 Closed Test MVP” and “Smart Scan”). No receipt-entry UI is implemented here.
 - OCR and AI output remains an editable draft that requires confirmation before assignment. Receipt images stay on-device, the backend may receive OCR text only, and full OCR text is not persisted by default ([`PRODUCT.md`](../../PRODUCT.md), “Smart Scan”; [`docs/product-plan.md`](../product-plan.md), “Smart Scan”). This slice adds no receipt permission, image storage, OCR, logging, or external boundary.
 - Full editable bill data is the future local-history contract, while receipt images are not stored by default ([`docs/product-plan.md`](../product-plan.md), “Local History”). This slice adds no persistence or backup contract.
@@ -76,7 +76,7 @@ This slice implements no bill model, bill calculation, receipt flow, or saved dr
 
 This is not a UI redesign. The installed app must retain the existing placeholder content and its user-visible semantics, remain edge-to-edge, and launch without a navigation dead end. Any unavoidable visual difference caused by moving the composable across modules must be treated as a regression.
 
-General future content, interaction, accessibility, adaptive-layout, and navigation rules remain governed by [`DESIGN.md`](../../DESIGN.md) and [`RTK.md`](../../RTK.md). The known starter-theme conflict is explicitly deferred; this slice must not present the placeholder as approved BillSlice design.
+General future content, interaction, accessibility, adaptive-layout, and navigation rules remain governed by [`DESIGN.md`](../../DESIGN.md) and [`docs/agent/android-engineering.md`](../agent/android-engineering.md). The known starter-theme conflict is explicitly deferred; this slice must not present the placeholder as approved BillSlice design.
 
 ## Data and boundary contracts
 
@@ -133,4 +133,4 @@ None. Any request to include additional modules, product types, dependency injec
 | `AC-005` | Targeted compilation output | Run the exact affected-module compilation command in `AC-005` |
 | `AC-006` | Aggregate tests, lint, and APK build output | `./gradlew testDebugUnitTest lintDebug assembleDebug` |
 | `AC-007` | Current/target architecture distinction | Manual documentation and link inspection |
-| `AC-008` | Standards/spec review with no blocking finding | `git diff --check`; merge-base-to-HEAD diff review against this specification, `RTK.md`, and repository documents; fresh reviewer report |
+| `AC-008` | Standards/spec review with no blocking finding | `git diff --check`; merge-base-to-HEAD diff review against this specification, `AGENTS.md`, applicable agent playbooks, and repository documents; fresh reviewer report |
