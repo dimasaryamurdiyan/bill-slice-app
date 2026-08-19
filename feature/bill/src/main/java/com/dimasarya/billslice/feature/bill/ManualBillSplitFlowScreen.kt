@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
+import com.dimasarya.billslice.core.domain.SaveBillUseCase
 import com.dimasarya.billslice.core.model.BillDraft
 import com.dimasarya.billslice.feature.bill.screens.AddPeopleContent
 import com.dimasarya.billslice.feature.bill.screens.AssignItemsContent
@@ -21,12 +22,14 @@ import java.util.UUID
 fun ManualBillSplitFlowScreen(
     modifier: Modifier = Modifier,
     initialDraft: BillDraft? = null,
-    viewModel: BillFlowViewModel = remember {
-        if (initialDraft != null) {
-            BillFlowViewModel(initialDraft = initialDraft)
-        } else {
-            BillFlowViewModel(initialDraft = BillDraft(id = UUID.randomUUID().toString()))
-        }
+    initialStep: BillFlowStep = BillFlowStep.ManualEntry,
+    saveBillUseCase: SaveBillUseCase? = null,
+    viewModel: BillFlowViewModel = remember(initialDraft?.id) {
+        BillFlowViewModel(
+            initialDraft = initialDraft ?: BillDraft(id = UUID.randomUUID().toString()),
+            initialStep = initialStep,
+            saveBillUseCase = saveBillUseCase,
+        )
     },
     onBack: () -> Unit,
 ) {

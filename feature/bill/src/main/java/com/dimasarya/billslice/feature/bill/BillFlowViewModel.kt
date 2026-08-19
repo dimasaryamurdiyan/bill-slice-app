@@ -1,8 +1,10 @@
 package com.dimasarya.billslice.feature.bill
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dimasarya.billslice.core.domain.CalculateBillSplitUseCase
 import com.dimasarya.billslice.core.domain.GenerateShareTextUseCase
+import com.dimasarya.billslice.core.domain.SaveBillUseCase
 import com.dimasarya.billslice.core.domain.ValidateBillDraftUseCase
 import com.dimasarya.billslice.core.domain.ValidateReceiptTotalsUseCase
 import com.dimasarya.billslice.core.model.BillDraft
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class BillFlowViewModel(
@@ -21,16 +24,36 @@ class BillFlowViewModel(
     private val calculateBillSplitUseCase: CalculateBillSplitUseCase = CalculateBillSplitUseCase(),
     private val validateReceiptTotalsUseCase: ValidateReceiptTotalsUseCase = ValidateReceiptTotalsUseCase(),
     private val generateShareTextUseCase: GenerateShareTextUseCase = GenerateShareTextUseCase(),
+    private val saveBillUseCase: SaveBillUseCase? = null,
     initialDraft: BillDraft = BillDraft(id = UUID.randomUUID().toString()),
+    initialStep: BillFlowStep = BillFlowStep.ManualEntry,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         BillFlowUiState(
-            step = BillFlowStep.ManualEntry,
+            step = initialStep,
             draft = initialDraft,
         ),
     )
     val uiState: StateFlow<BillFlowUiState> = _uiState.asStateFlow()
+
+    init {
+        if (initialStep == BillFlowStep.SplitResult || initialStep == BillFlowStep.CalculationSummary) {
+            val errors = validateBillDraftUseCase(initialDraft)
+            if (errors.isEmpty()) {
+                val calc = calculateBillSplitUseCase(initialDraft)
+                val validation = validateReceiptTotalsUseCase(calc.total, initialDraft.receiptTotal)
+                val share = generateShareTextUseCase(calc, initialDraft.merchantName)
+                _uiState.update {
+                    it.copy(
+                        calculationResult = calc,
+                        receiptValidationResult = validation,
+                        shareText = share,
+                    )
+                }
+            }
+        }
+    }
 
     fun onEvent(event: BillFlowUiEvent) {
         when (event) {
@@ -175,6 +198,17 @@ class BillFlowViewModel(
                     validationErrors = emptyList(),
                     step = BillFlowStep.CalculationSummary,
                 )
+            }
+
+            if (saveBillUseCase != null) {
+                viewModelScope.launch {
+                    val saveResult = saveBillUseCase(currentDraft, calculationResult)
+                    if (saveResult.isFailure) {
+                        _uiState.update {
+                            it.copy(userFeedbackMessage = "Unable to save bill to history")
+                        }
+                    }
+                }
             }
         } catch (e: Exception) {
             _uiState.update {
