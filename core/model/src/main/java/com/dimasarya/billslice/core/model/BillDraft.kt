@@ -12,6 +12,8 @@ data class BillDraft(
     val taxRate: Rate = Rate.ZERO,
     val discount: Money = Money.zero(currency),
     val receiptTotal: Money? = null,
+    val createdAtEpochMillis: Long = 0L,
+    val updatedAtEpochMillis: Long = 0L,
 ) {
     val subtotal: Money
         get() = items.fold(Money.zero(currency)) { acc, item -> acc + item.subtotal }

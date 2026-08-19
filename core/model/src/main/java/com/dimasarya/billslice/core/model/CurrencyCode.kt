@@ -7,5 +7,9 @@ enum class CurrencyCode(
 ) {
     IDR(code = "IDR", symbol = "Rp", decimalDigits = 0),
     USD(code = "USD", symbol = "$", decimalDigits = 2),
-    SGD(code = "SGD", symbol = "S$", decimalDigits = 2),
+    SGD(code = "SGD", symbol = "S$", decimalDigits = 2);
+
+    companion object {
+        fun fromCode(code: String): CurrencyCode? = entries.firstOrNull { it.code.equals(code, ignoreCase = true) }
+    }
 }
