@@ -24,12 +24,13 @@ The implemented app shell contains these inward dependency paths:
 - `:app` owns `MainActivity`, local startup states, typed Navigation 3 routes, adaptive top-level navigation, theme entry, and feature wiring.
 - `:feature:home` owns the offline-ready Home UI, optional quota display, empty/recent bill summaries, and bill-flow navigation intents.
 - `:feature:settings` owns typed Settings state and UI for currency, quota, privacy, Pro/restore availability, and build information.
-- `:feature:bill` owns focused scan/manual entry placeholders; bill editing and calculation remain unimplemented.
+- `:feature:bill` owns manual bill splitting flow, review, people, assignments, calculation, split results, and share preview.
+- `:feature:history` owns the local bill history UI, recent bills, Free/Pro visibility boundaries, and tap-to-reopen affordances.
+- `:core:database` owns the local Room database, versioned schemas, entities, and transactions.
+- `:core:data` owns repository implementations and database-to-domain mapping.
 - `:core:designsystem` owns the light-only BillSlice palette, bundled Funnel Sans typography, shapes, spacing, and semantic theme tokens.
-- `:core:ui` is present but intentionally contains no shared component yet; no UI pattern has two proven consumers.
-- `:core:domain` and `:core:model` are Android-free Kotlin modules reserved for approved product behavior.
-
-History is currently an app-owned navigation placeholder, not a persistence implementation or `:feature:history` module. All other modules in the graph below remain targets and should be introduced only when an approved product slice needs them.
+- `:core:ui` is present for shared UI components.
+- `:core:domain` and `:core:model` are pure Kotlin modules for business logic, validation, calculation, and domain seams.
 
 ## Architecture Principles
 
