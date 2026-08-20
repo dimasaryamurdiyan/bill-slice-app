@@ -376,6 +376,8 @@ Initial endpoint:
 POST /smart-scan/parse
 ```
 
+The exact Android/backend wire boundary is [`docs/contracts/smart-scan-api.md`](docs/contracts/smart-scan-api.md).
+
 Backend receives OCR text only.
 
 ### `:core:ocr`

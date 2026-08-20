@@ -104,6 +104,8 @@ Initial endpoint:
 POST /smart-scan/parse
 ```
 
+The exact wire contract is [`docs/contracts/smart-scan-api.md`](contracts/smart-scan-api.md).
+
 Request:
 
 ```json
