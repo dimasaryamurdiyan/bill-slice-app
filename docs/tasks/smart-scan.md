@@ -25,31 +25,31 @@ Manual draft/review interfaces and app shell implemented; sanitized images; test
   - Depends on: none
 - [ ] `T-002` — Define quota, parse, and OCR outcomes test-first
   - Covers: `FR-003`–`FR-006`, `FR-010`; `AC-003`, `AC-004`
-  - Result: Pure models/use cases represent quota, parse result/warnings, and typed errors without SDK leakage.
+  - Result: Pure models/use cases represent server-controlled Jakarta quota, request ID, usable parse result/warnings, and typed local/remote errors without SDK leakage.
   - Likely scope: `:core:model`, `:core:domain`, `:core:testing`.
-  - Verification: JVM quota/time/error tests.
+  - Verification: JVM quota/time/idempotency/error tests.
   - Depends on: `T-001`
 - [ ] `T-003` — Implement capture/import and ML Kit adapter
   - Covers: `FR-001`–`FR-003`, `FR-010`, `FR-012`; `AC-001`, `AC-003`, `AC-007`
-  - Result: Narrow permission, system import, unbundled OCR, cancellation, and transient cleanup work behind `ReceiptOcr`.
+  - Result: Narrow permission, system import, invalid-image rejection, unbundled OCR, empty/unusable-text rejection, neutral cancellation, and transient cleanup work behind `ReceiptOcr`.
   - Likely scope: `:core:ocr`, `:feature:bill`, manifest/platform contracts, tests.
   - Verification: adapter/permission/storage tests and compilation.
   - Depends on: `T-002`
 - [ ] `T-004` — Implement Smart Scan network/repository adapter
   - Covers: `FR-004`–`FR-006`, `FR-010`; `AC-002`, `AC-004`
-  - Result: HTTPS client sends only allowed fields, maps all responses, and produces no sensitive logs/persistence.
+  - Result: HTTPS client sends only allowed fields, reuses one request ID for explicit retries, maps all responses, and produces no sensitive logs/persistence.
   - Likely scope: `:core:network`, `:core:data`, domain repository, config/tests.
   - Verification: fake-server request/response/privacy tests.
   - Depends on: `T-002`
 - [ ] `T-005` — Verify authoritative backend quota/privacy contract
   - Covers: `FR-005`, `FR-006`; `AC-002`, `AC-004`
-  - Result: Test endpoint enforces five/month/reset and minimal logging with server-side secret ownership.
+  - Result: Test endpoint atomically enforces five successful usable parses per server-controlled Jakarta month, fails closed when policy cannot be verified, scopes request IDs to installs, replays a successful request without a second AI call/quota use, clears structured result data within one hour while retaining the minimal no-double-charge marker, and keeps raw OCR out of storage/logs.
   - Likely scope: test backend/deployment evidence; backend source only in its approved repository/location.
-  - Verification: test-backend integration/log inspection.
+  - Verification: concurrent/idempotent test-backend integration, replay/expiry/storage/log inspection.
   - Depends on: `T-004`
 - [ ] `T-006` — Implement loading state machine and cancellation
   - Covers: `FR-007`, `FR-010`–`FR-012`; `AC-005`, `AC-007`
-  - Result: Explicit steps, retry/cancel, duplicate prevention, and every manual fallback state pass coroutine tests.
+  - Result: Explicit steps, neutral cancellation, user-initiated same-ID retry, configuration-change continuity, process-death cleanup, duplicate prevention, and every manual fallback state pass coroutine tests.
   - Likely scope: `:feature:bill` ViewModel/reducer/resources/tests.
   - Verification: coroutine/ViewModel tests without sleeps.
   - Depends on: `T-003`, `T-004`
@@ -73,7 +73,7 @@ Manual draft/review interfaces and app shell implemented; sanitized images; test
   - Depends on: `T-008`
 - [ ] `T-010` — Inspect actual capture/loading/review/failure states
   - Covers: `AC-001`, `AC-005`, `AC-006`, `AC-008`
-  - Result: Camera/import/offline/quota/success/manual fallback pass phone/tablet/accessibility inspection with PR screenshots.
+  - Result: Camera/import/input failure/offline/quota/retry/success/manual fallback pass phone/tablet/accessibility inspection with PR screenshots.
   - Likely scope: device evidence/fixes.
   - Verification: actual app and applicable connected tests.
   - Depends on: `T-009`
@@ -97,5 +97,6 @@ Risks are receipt/OCR leakage, model-download friction, duplicate requests, and 
 ## Completion checklist
 
 - [ ] `AC-001`–`AC-009` evidenced.
-- [ ] Image never uploaded; full OCR not persisted/logged.
-- [ ] Every failure exposes manual entry; tests/build/actual-app/CI/review pass.
+- [ ] Image never uploaded; full OCR not persisted/logged; successful structured replay expires within one hour.
+- [ ] Only a valid usable parse consumes quota, at most once per request ID, using a server-controlled Jakarta month.
+- [ ] Every failure exposes manual entry; explicit retry, cancellation, lifecycle, tests/build/actual-app/CI/review pass.
