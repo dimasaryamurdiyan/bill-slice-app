@@ -35,7 +35,7 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
   - Likely scope: `:core:ocr`, `:feature:bill`, manifest/platform contracts, tests.
   - Verification: adapter/permission/storage tests and compilation.
   - Depends on: `T-002`
-- [ ] `T-004` — Implement Smart Scan network/repository adapter
+- [x] `T-004` — Implement Smart Scan network/repository adapter
   - Covers: `FR-004`–`FR-006`, `FR-010`; `AC-002`, `AC-004`
   - Result: HTTPS client sends only allowed fields, reuses one request ID for explicit retries, maps all responses, and produces no sensitive logs/persistence.
   - Likely scope: `:core:network`, `:core:data`, domain repository, config/tests.

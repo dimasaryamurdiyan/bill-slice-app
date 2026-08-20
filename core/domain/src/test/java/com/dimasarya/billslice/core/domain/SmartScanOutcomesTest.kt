@@ -1,7 +1,7 @@
 package com.dimasarya.billslice.core.domain
 
-import com.dimasarya.billslice.core.model.BillDraft
 import com.dimasarya.billslice.core.model.CurrencyCode
+import com.dimasarya.billslice.core.model.ParsedReceiptDraft
 import com.dimasarya.billslice.core.model.ReceiptParseRequest
 import com.dimasarya.billslice.core.model.SmartScanParseFailure
 import com.dimasarya.billslice.core.model.SmartScanParseOutcome
@@ -43,18 +43,33 @@ class SmartScanOutcomesTest {
     @Test
     fun `parse request contains only the documented text fields`() {
         val request = ReceiptParseRequest(
-            installId = "anonymous-device-id",
+            requestId = requestId,
+            installId = installId,
             locale = "id-ID",
             currency = CurrencyCode.IDR,
             timezone = "Asia/Jakarta",
             ocrText = "sanitized OCR text",
         )
 
-        assertEquals("anonymous-device-id", request.installId)
+        assertEquals(installId, request.installId)
+        assertEquals(requestId, request.requestId)
         assertEquals("id-ID", request.locale)
         assertEquals(CurrencyCode.IDR, request.currency)
         assertEquals("Asia/Jakarta", request.timezone)
         assertEquals("sanitized OCR text", request.ocrText)
+    }
+
+    @Test
+    fun `parse request rejects invalid contract metadata`() {
+        assertInvalidRequest(requestId = "not-a-uuid", installId = installId, locale = "id-ID", timezone = "Asia/Jakarta")
+        assertInvalidRequest(requestId = requestId, installId = "not-a-uuid", locale = "id-ID", timezone = "Asia/Jakarta")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "-", timezone = "Asia/Jakarta")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "id--ID", timezone = "Asia/Jakarta")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "en-a", timezone = "Asia/Jakarta")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "id-ID", timezone = "Not/A_Zone")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "id-ID", timezone = "PST")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "id-ID", timezone = "US/Pacific")
+        assertInvalidRequest(requestId = requestId, installId = installId, locale = "id-ID", timezone = "SystemV/PST8PDT")
     }
 
     @Test
@@ -84,7 +99,19 @@ class SmartScanOutcomesTest {
 
     @Test
     fun `successful parse keeps the receipt draft editable`() {
-        val draft = BillDraft(id = "draft-id")
+        val draft = ParsedReceiptDraft(
+            id = "draft-id",
+            merchantName = null,
+            purchasedAt = null,
+            currency = CurrencyCode.IDR,
+            items = emptyList(),
+            serviceRateBasisPoints = null,
+            serviceAmountMinor = null,
+            taxRateBasisPoints = null,
+            taxAmountMinor = null,
+            discountMinor = null,
+            receiptTotalMinor = null,
+        )
         val outcome = SmartScanParseOutcome.Success(
             draft = draft,
             warnings = emptyList(),
@@ -95,7 +122,8 @@ class SmartScanOutcomesTest {
     }
 
     private fun request(): ReceiptParseRequest = ReceiptParseRequest(
-        installId = "anonymous-device-id",
+        requestId = requestId,
+        installId = installId,
         locale = "id-ID",
         currency = CurrencyCode.IDR,
         timezone = "Asia/Jakarta",
@@ -109,5 +137,19 @@ class SmartScanOutcomesTest {
         } catch (_: IllegalArgumentException) {
             // Expected: invalid server data must not become a valid product quota.
         }
+    }
+
+    private fun assertInvalidRequest(requestId: String, installId: String, locale: String, timezone: String) {
+        try {
+            ReceiptParseRequest(requestId, installId, locale, CurrencyCode.IDR, timezone, "sanitized")
+            fail("Expected invalid request metadata to be rejected")
+        } catch (_: IllegalArgumentException) {
+            // Expected.
+        }
+    }
+
+    private companion object {
+        const val requestId = "7dbf4c63-49c0-46c4-9db2-85dd30f583dd"
+        const val installId = "83b8dbf6-46c1-4440-9b5f-0aa914773462"
     }
 }
