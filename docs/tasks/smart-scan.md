@@ -1,6 +1,6 @@
 # Smart Scan implementation plan
 
-- Status: Ready
+- Status: In Progress
 - Specification: [`docs/specs/smart-scan.md`](../specs/smart-scan.md)
 - Branch: `codex/smart-scan`
 
@@ -17,7 +17,7 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
 
 ## Vertical slices
 
-- [ ] `T-001` — Establish green baseline and sanitized fixtures
+- [x] `T-001` — Establish green baseline and sanitized fixtures
   - Covers: `AC-009`
   - Result: Baseline green; private receipt data absent; API contract examples copied into sanitized Android/backend fixtures without drift.
   - Likely scope: read-only checks and sanitized test assets.
