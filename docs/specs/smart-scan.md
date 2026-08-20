@@ -57,7 +57,7 @@ Match the three Pencil screens and Review draft treatment in `DESIGN.md`. Manual
 
 ## Data and boundary contracts
 
-Request contract is exactly the JSON documented in `docs/product-plan.md`; image never crosses `ReceiptOcr`. Response produces structured draft/warnings/quota or typed failure. A valid response is structurally usable when it contains an editable draft with at least one usable item; warnings and individually editable uncertain fields do not invalidate it. Android/backend meet only at `:core:network`. Server owns OpenAI secret, prompt/schema, atomic quota persistence, one-hour successful-result replay, and minimal logs. Backend source/deployment availability is an implementation precondition, not permission to embed secrets.
+The exact request, response, warning, error, quota, idempotency, and retention wire contract is [`docs/contracts/smart-scan-api.md`](../contracts/smart-scan-api.md); image never crosses `ReceiptOcr`. A valid response is structurally usable when it contains an editable draft with at least one usable item; warnings and individually editable uncertain fields do not invalidate it. Android/backend meet only at `:core:network`. Server owns OpenAI secret, prompt/schema, atomic quota persistence, one-hour successful-result replay, and minimal logs. Backend source/deployment availability is an implementation precondition, not permission to embed secrets.
 
 ## Acceptance criteria
 

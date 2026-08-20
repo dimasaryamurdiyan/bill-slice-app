@@ -13,13 +13,13 @@
 
 ## Preconditions
 
-Manual draft/review interfaces and app shell implemented; sanitized images; test Supabase endpoint/publishable config; server secret stays server-side; device camera/import environment; clean baseline/draft PR.
+Manual draft/review interfaces and app shell implemented; approved [`Smart Scan API contract`](../contracts/smart-scan-api.md); sanitized images; test Supabase endpoint/publishable config; server secret stays server-side; device camera/import environment; clean baseline/draft PR.
 
 ## Vertical slices
 
 - [ ] `T-001` — Establish green baseline and sanitized fixtures
   - Covers: `AC-009`
-  - Result: Baseline green; private receipt data absent; expected contract recorded.
+  - Result: Baseline green; private receipt data absent; API contract examples copied into sanitized Android/backend fixtures without drift.
   - Likely scope: read-only checks and sanitized test assets.
   - Verification: existing gates and fixture review.
   - Depends on: none
@@ -39,13 +39,13 @@ Manual draft/review interfaces and app shell implemented; sanitized images; test
   - Covers: `FR-004`–`FR-006`, `FR-010`; `AC-002`, `AC-004`
   - Result: HTTPS client sends only allowed fields, reuses one request ID for explicit retries, maps all responses, and produces no sensitive logs/persistence.
   - Likely scope: `:core:network`, `:core:data`, domain repository, config/tests.
-  - Verification: fake-server request/response/privacy tests.
+  - Verification: fake-server tests against the exact API success/error/quota/replay contract and privacy rules.
   - Depends on: `T-002`
 - [ ] `T-005` — Verify authoritative backend quota/privacy contract
   - Covers: `FR-005`, `FR-006`; `AC-002`, `AC-004`
   - Result: Test endpoint atomically enforces five successful usable parses per server-controlled Jakarta month, fails closed when policy cannot be verified, scopes request IDs to installs, replays a successful request without a second AI call/quota use, clears structured result data within one hour while retaining the minimal no-double-charge marker, and keeps raw OCR out of storage/logs.
   - Likely scope: test backend/deployment evidence; backend source only in its approved repository/location.
-  - Verification: concurrent/idempotent test-backend integration, replay/expiry/storage/log inspection.
+  - Verification: concurrent/idempotent test-backend integration against the exact API contract, replay/expiry/storage/log inspection.
   - Depends on: `T-004`
 - [ ] `T-006` — Implement loading state machine and cancellation
   - Covers: `FR-007`, `FR-010`–`FR-012`; `AC-005`, `AC-007`
