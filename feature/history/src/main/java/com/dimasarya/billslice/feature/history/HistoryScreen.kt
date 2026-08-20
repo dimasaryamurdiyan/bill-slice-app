@@ -6,8 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,24 +22,28 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ReceiptLong
-import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,37 +72,87 @@ fun HistoryScreen(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(WarmCanvas),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        when (state) {
-            is HistoryUiState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(color = DeepEmerald)
+    Scaffold(
+        modifier = modifier.background(WarmCanvas),
+        containerColor = WarmCanvas,
+        topBar = { HistoryTopBar() },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            when (state) {
+                is HistoryUiState.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator(color = DeepEmerald)
+                    }
+                }
+                is HistoryUiState.Empty -> {
+                    EmptyHistoryContent()
+                }
+                is HistoryUiState.Error -> {
+                    ErrorHistoryContent(
+                        message = state.message,
+                        onRetry = onRetry,
+                    )
+                }
+                is HistoryUiState.Populated -> {
+                    PopulatedHistoryContent(
+                        state = state,
+                        onOpenBill = onOpenBill,
+                        onLifetimePro = onLifetimePro,
+                    )
                 }
             }
-            is HistoryUiState.Empty -> {
-                EmptyHistoryContent()
-            }
-            is HistoryUiState.Error -> {
-                ErrorHistoryContent(
-                    message = state.message,
-                    onRetry = onRetry,
-                )
-            }
-            is HistoryUiState.Populated -> {
-                PopulatedHistoryContent(
-                    state = state,
-                    onOpenBill = onOpenBill,
-                    onLifetimePro = onLifetimePro,
-                )
-            }
+        }
+    }
+}
+
+@Composable
+private fun HistoryTopBar(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(HistoryMetrics.TopBarHeight),
+        contentAlignment = Alignment.TopCenter,
+    ) {
+        Box(
+            modifier = Modifier
+                .widthIn(max = HistoryMetrics.MaxContentWidth)
+                .fillMaxWidth()
+                .height(HistoryMetrics.TopBarHeight)
+                .padding(horizontal = BillSliceThemeTokens.spacing.screenHorizontal),
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.ReceiptLong,
+                contentDescription = null,
+                tint = DeepEmerald,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .size(24.dp),
+            )
+            Text(
+                text = stringResource(R.string.history_title),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight(750),
+                    color = DeepInk,
+                ),
+                modifier = Modifier.align(Alignment.Center),
+            )
+            Icon(
+                imageVector = Icons.Rounded.MoreVert,
+                contentDescription = null,
+                tint = MutedInk,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(24.dp),
+            )
         }
     }
 }
@@ -109,23 +166,22 @@ private fun PopulatedHistoryContent(
 ) {
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
-            .widthIn(max = 840.dp)
-            .padding(horizontal = 18.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .widthIn(max = HistoryMetrics.MaxContentWidth)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentPadding = PaddingValues(
+            start = BillSliceThemeTokens.spacing.screenHorizontal,
+            top = HistoryMetrics.ScreenGap,
+            end = BillSliceThemeTokens.spacing.screenHorizontal,
+            bottom = HistoryMetrics.BottomContentPadding,
+        ),
+        verticalArrangement = Arrangement.spacedBy(HistoryMetrics.ListGap),
     ) {
         item {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.history_title),
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight(850),
-                    fontSize = 32.sp,
-                    color = DeepInk,
-                ),
-                modifier = Modifier.semantics { heading() },
+            HistoryHeader(
+                isPro = state.isPro,
+                modifier = Modifier.padding(bottom = HistoryMetrics.HeaderGapAdjustment),
             )
-            Spacer(modifier = Modifier.height(4.dp))
         }
 
         items(state.bills, key = RecentBillSummary::id) { bill ->
@@ -140,10 +196,42 @@ private fun PopulatedHistoryContent(
                 ProHistoryTeaserCard(onClick = onLifetimePro)
             }
         }
+    }
+}
 
-        item {
-            Spacer(modifier = Modifier.height(80.dp))
-        }
+@Composable
+private fun HistoryHeader(
+    isPro: Boolean = false,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(HistoryMetrics.ScreenGap),
+    ) {
+        Text(
+            text = stringResource(R.string.history_section_heading),
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.ExtraBold,
+                lineHeight = 33.sp,
+                color = DeepInk,
+            ),
+            modifier = Modifier.semantics { heading() },
+        )
+        Text(
+            text = stringResource(
+                if (isPro) {
+                    R.string.history_section_subtitle_pro
+                } else {
+                    R.string.history_section_subtitle
+                },
+            ),
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontSize = 13.sp,
+                lineHeight = 15.sp,
+                fontWeight = FontWeight.Medium,
+                color = MutedInk,
+            ),
+        )
     }
 }
 
@@ -154,63 +242,133 @@ private fun HistoryBillRow(
     modifier: Modifier = Modifier,
 ) {
     val dateString = formatDate(bill.createdAtEpochMillis)
+    val peopleLabel = pluralStringResource(
+        R.plurals.history_people_count,
+        bill.participantCount,
+        bill.participantCount,
+    )
     val accessibilityLabel = stringResource(
         R.string.history_item_description,
         bill.merchantName,
         dateString,
-        bill.participantCount,
+        peopleLabel,
         bill.total.format(),
     )
+    val reopenActionLabel = stringResource(R.string.history_reopen_action, bill.merchantName)
 
     Surface(
         modifier = modifier
             .fillMaxWidth()
             .clickable(
                 role = Role.Button,
-                onClickLabel = stringResource(R.string.history_item_description, bill.merchantName, dateString, bill.participantCount, bill.total.format()),
+                onClickLabel = reopenActionLabel,
                 onClick = onClick,
             )
             .semantics { contentDescription = accessibilityLabel },
-        shape = RoundedCornerShape(12.dp),
+        shape = MaterialTheme.shapes.extraSmall,
         color = WarmSurface,
         border = BorderStroke(1.dp, SubtleBorder),
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .padding(HistoryMetrics.RowPadding),
         ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
+                    Text(
+                        text = bill.merchantName,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Medium,
+                            color = DeepInk,
+                        ),
+                    )
+                    Text(
+                        text = "$dateString • $peopleLabel",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 11.sp,
+                            color = MutedInk,
+                        ),
+                    )
+                }
+
                 Text(
-                    text = bill.merchantName,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight(750),
-                        fontSize = 15.sp,
+                    text = bill.total.format(),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.ExtraBold,
                         color = DeepInk,
-                    ),
-                )
-                Text(
-                    text = "$dateString • ${stringResource(R.string.history_people_count, bill.participantCount)}",
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        fontWeight = FontWeight(500),
-                        fontSize = 12.sp,
-                        color = MutedInk,
                     ),
                 )
             }
 
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Edit,
+                    contentDescription = null,
+                    tint = DeepEmerald,
+                    modifier = Modifier.size(15.dp),
+                )
+                Text(
+                    text = stringResource(R.string.history_reopen_edit),
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 11.sp,
+                        color = DeepEmerald,
+                    ),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyHistoryCard(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        color = SoftSurface,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(HistoryMetrics.EmptyStatePadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(HistoryMetrics.EmptyStateGap),
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.ReceiptLong,
+                contentDescription = null,
+                tint = DeepEmerald,
+                modifier = Modifier.size(30.dp),
+            )
             Text(
-                text = bill.total.format(),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight(800),
-                    fontSize = 16.sp,
-                    color = DeepEmerald,
+                text = stringResource(R.string.history_empty_title),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = DeepInk,
                 ),
+            )
+            Text(
+                text = stringResource(R.string.history_empty_body),
+                style = MaterialTheme.typography.labelMedium.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 11.sp,
+                    color = MutedInk,
+                ),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
@@ -270,31 +428,26 @@ private fun ProHistoryTeaserCard(
 
 @Composable
 private fun EmptyHistoryContent(modifier: Modifier = Modifier) {
-    Column(
+    LazyColumn(
         modifier = modifier
-            .fillMaxSize()
-            .padding(BillSliceThemeTokens.spacing.extraLarge),
-        verticalArrangement = Arrangement.spacedBy(
-            BillSliceThemeTokens.spacing.large,
-            Alignment.CenterVertically,
+            .widthIn(max = HistoryMetrics.MaxContentWidth)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentPadding = PaddingValues(
+            start = BillSliceThemeTokens.spacing.screenHorizontal,
+            top = HistoryMetrics.ScreenGap,
+            end = BillSliceThemeTokens.spacing.screenHorizontal,
+            bottom = HistoryMetrics.BottomContentPadding,
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(HistoryMetrics.ListGap),
     ) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Rounded.ReceiptLong,
-            contentDescription = null,
-            tint = DeepEmerald,
-            modifier = Modifier.size(64.dp),
-        )
-        Text(
-            text = stringResource(R.string.history_empty_title),
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.semantics { heading() },
-        )
-        Text(
-            text = stringResource(R.string.history_empty_body),
-            style = MaterialTheme.typography.bodyLarge.copy(color = MutedInk),
-        )
+        item {
+            HistoryHeader(modifier = Modifier.padding(bottom = HistoryMetrics.HeaderGapAdjustment))
+        }
+
+        item {
+            EmptyHistoryCard()
+        }
     }
 }
 
@@ -332,8 +485,20 @@ private fun ErrorHistoryContent(
 
 private fun formatDate(epochMillis: Long): String {
     if (epochMillis <= 0) return "Recent"
-    val formatter = SimpleDateFormat("d MMM, HH:mm", Locale.getDefault())
+    val formatter = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
     return formatter.format(Date(epochMillis))
+}
+
+private object HistoryMetrics {
+    val TopBarHeight = 44.dp
+    val MaxContentWidth = 840.dp
+    val ScreenGap = 14.dp
+    val ListGap = 9.dp
+    val HeaderGapAdjustment = ScreenGap - ListGap
+    val RowPadding = 13.dp
+    val EmptyStatePadding = 16.dp
+    val EmptyStateGap = 7.dp
+    val BottomContentPadding = 80.dp
 }
 
 @Preview(name = "Phone", showBackground = true, widthDp = 400, heightDp = 900)
@@ -352,9 +517,33 @@ private fun HistoryScreenPreview() {
         ),
         RecentBillSummary(
             id = "2",
-            merchantName = "Kopi Kenangan",
-            createdAtEpochMillis = System.currentTimeMillis() - 86400000L,
-            total = Money.idr(88_000),
+            merchantName = "Kopi Tepi",
+            createdAtEpochMillis = System.currentTimeMillis() - 86400000L * 4,
+            total = Money.idr(128_000),
+            participantCount = 2,
+            currency = CurrencyCode.IDR,
+        ),
+        RecentBillSummary(
+            id = "3",
+            merchantName = "Bakmi 88",
+            createdAtEpochMillis = System.currentTimeMillis() - 86400000L * 11,
+            total = Money.idr(176_500),
+            participantCount = 4,
+            currency = CurrencyCode.IDR,
+        ),
+        RecentBillSummary(
+            id = "4",
+            merchantName = "Sate Senayan",
+            createdAtEpochMillis = System.currentTimeMillis() - 86400000L * 17,
+            total = Money.idr(245_300),
+            participantCount = 3,
+            currency = CurrencyCode.IDR,
+        ),
+        RecentBillSummary(
+            id = "5",
+            merchantName = "Ayam Bakar Madu",
+            createdAtEpochMillis = System.currentTimeMillis() - 86400000L * 26,
+            total = Money.idr(164_000),
             participantCount = 2,
             currency = CurrencyCode.IDR,
         ),
@@ -364,8 +553,21 @@ private fun HistoryScreenPreview() {
             state = HistoryUiState.Populated(
                 bills = sampleBills,
                 isPro = false,
-                hasOlderBills = true,
+                hasOlderBills = false,
             ),
+            onOpenBill = {},
+            onLifetimePro = {},
+            onRetry = {},
+        )
+    }
+}
+
+@Preview(name = "Empty", showBackground = true, widthDp = 400, heightDp = 900)
+@Composable
+private fun HistoryScreenEmptyPreview() {
+    BillSliceTheme {
+        HistoryScreen(
+            state = HistoryUiState.Empty,
             onOpenBill = {},
             onLifetimePro = {},
             onRetry = {},
