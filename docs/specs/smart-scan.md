@@ -6,7 +6,7 @@
 
 ## Context
 
-Smart Scan accelerates receipt entry but cannot be required for splitting. It covers Receipt Capture, Smart Scan loading, and Receipt Review in `billslice.pen`. The image stays on-device; `:core:ocr` extracts text with unbundled ML Kit; `:core:network` sends OCR text to `POST /smart-scan/parse`; `:core:data` implements the domain repository; `:feature:bill` owns UI/session state ([`ARCHITECTURE.md`](../../ARCHITECTURE.md)).
+Smart Scan accelerates receipt entry but cannot be required for splitting. It covers Receipt Capture, Smart Scan loading, and Receipt Review in `billslice.pen`. The image stays on-device; `:core:ocr` extracts text with unbundled ML Kit; `:core:network` sends OCR text to `POST /smart-scan/parse`; `:core:data` implements the domain repository; `:feature:bill` owns UI/session state ([`ARCHITECTURE.md`](../../ARCHITECTURE.md)). Supabase/OpenAI implementation is specified separately by [`Smart Scan backend`](smart-scan-backend.md).
 
 ## Outcome
 
