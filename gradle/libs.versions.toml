@@ -12,6 +12,7 @@ navigation3 = "1.1.6"
 kotlinxSerialization = "1.9.0"
 kotlinxCoroutines = "1.10.1"
 room = "2.7.0"
+mlKitTextRecognition = "19.0.1"
 ksp = "2.2.10-2.0.2"
 
 [libraries]
@@ -41,6 +42,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+mlkit-text-recognition = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition", version.ref = "mlKitTextRecognition" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="scan_entry_title">Scan Receipt</string>
-    <string name="scan_entry_body">Receipt capture starts here. Camera and Smart Scan arrive in their dedicated feature.</string>
+    <string name="scan_entry_body">Take a clear photo of the full receipt, or choose one from your device.</string>
+    <string name="scan_camera">Use camera</string>
+    <string name="scan_import">Choose image</string>
+    <string name="scan_manual">Enter items manually</string>
+    <string name="scan_privacy">Receipt images stay on your device.</string>
+    <string name="scan_permission_denied">Camera access was not granted. You can choose an image or enter items manually.</string>
+    <string name="scan_image_selected">Receipt selected. It stays on your device while Smart Scan prepares a draft.</string>
+    <string name="scan_reading">Reading receipt text on your device…</string>
+    <string name="scan_text_read">Receipt text is ready for Smart Scan.</string>
+    <string name="scan_ocr_unavailable">Receipt text is not ready yet. Try again or enter items manually.</string>
+    <string name="scan_capture_failed">We couldn\'t use that image. Try again or enter items manually.</string>
+    <string name="scan_model_downloading">Receipt text model is still downloading. Try again shortly, or enter items manually.</string>
+    <string name="scan_recognition_failed">We couldn\'t read text from that receipt. Try a clearer image or enter items manually.</string>
+    <string name="scan_cancelled">Smart Scan was cancelled. You can try again or enter items manually.</string>
+    <string name="scan_continue">Continue</string>
     <string name="manual_entry_title">Manual Item Entry</string>
     <string name="manual_entry_body">Manual bill entry starts here and remains available without a network connection.</string>
     <string name="back_to_home">Back to Home</string>

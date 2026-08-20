@@ -29,7 +29,7 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
   - Likely scope: `:core:model`, `:core:domain`, `:core:testing`.
   - Verification: JVM quota/time/idempotency/error tests.
   - Depends on: `T-001`
-- [ ] `T-003` — Implement capture/import and ML Kit adapter
+- [x] `T-003` — Implement capture/import and ML Kit adapter
   - Covers: `FR-001`–`FR-003`, `FR-010`, `FR-012`; `AC-001`, `AC-003`, `AC-007`
   - Result: Narrow permission, system import, invalid-image rejection, unbundled OCR, empty/unusable-text rejection, neutral cancellation, and transient cleanup work behind `ReceiptOcr`.
   - Likely scope: `:core:ocr`, `:feature:bill`, manifest/platform contracts, tests.

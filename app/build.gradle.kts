@@ -47,6 +47,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:database"))
     implementation(project(":core:data"))
+    implementation(project(":core:ocr"))
     implementation(project(":feature:bill"))
     implementation(project(":feature:history"))
     implementation(project(":feature:home"))
