@@ -23,7 +23,7 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
   - Likely scope: read-only checks and sanitized test assets.
   - Verification: existing gates and fixture review.
   - Depends on: none
-- [ ] `T-002` — Define quota, parse, and OCR outcomes test-first
+- [x] `T-002` — Define quota, parse, and OCR outcomes test-first
   - Covers: `FR-003`–`FR-006`, `FR-010`; `AC-003`, `AC-004`
   - Result: Pure models/use cases represent server-controlled Jakarta quota, request ID, usable parse result/warnings, and typed local/remote errors without SDK leakage.
   - Likely scope: `:core:model`, `:core:domain`, `:core:testing`.
