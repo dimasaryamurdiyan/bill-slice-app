@@ -1,5 +1,6 @@
 package com.dimasarya.billslice
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,10 +57,24 @@ import com.dimasarya.billslice.core.designsystem.theme.ReceiptMint
 import com.dimasarya.billslice.core.designsystem.theme.SubtleBorder
 import com.dimasarya.billslice.core.designsystem.theme.WarmCanvas
 import com.dimasarya.billslice.core.designsystem.theme.WarmSurface
+import androidx.compose.foundation.background
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dimasarya.billslice.core.data.repository.BillRepositoryImpl
+import com.dimasarya.billslice.core.database.BillSliceDatabase
+import com.dimasarya.billslice.core.domain.BillRepository
+import com.dimasarya.billslice.core.domain.GetBillUseCase
+import com.dimasarya.billslice.core.domain.ObserveRecentBillsUseCase
+import com.dimasarya.billslice.core.domain.SaveBillUseCase
 import com.dimasarya.billslice.feature.bill.BillFlowEntryMode
 import com.dimasarya.billslice.feature.bill.BillFlowEntryScreen
+import com.dimasarya.billslice.feature.bill.ManualBillSplitFlowScreen
+import com.dimasarya.billslice.feature.bill.ReopenedBillEntry
+import com.dimasarya.billslice.feature.history.HistoryScreen
+import com.dimasarya.billslice.feature.history.HistoryViewModel
 import com.dimasarya.billslice.feature.home.HomeScreen
-import com.dimasarya.billslice.feature.home.HomeUiState
+import com.dimasarya.billslice.feature.home.HomeViewModel
 import com.dimasarya.billslice.feature.settings.BuildInfoUi
 import com.dimasarya.billslice.feature.settings.SettingsScreen
 import com.dimasarya.billslice.feature.settings.SettingsUiState
@@ -76,7 +91,29 @@ import com.dimasarya.billslice.navigation.rememberAppNavigationState
 @Composable
 fun BillSliceApp(
     initialStartupState: StartupUiState = StartupUiState.Ready,
+    billRepository: BillRepository? = null,
 ) {
+    val context = LocalContext.current
+    val repository = remember(billRepository) {
+        billRepository ?: BillRepositoryImpl(BillSliceDatabase.buildDatabase(context).billDao())
+    }
+    val observeRecentBillsUseCase = remember(repository) { ObserveRecentBillsUseCase(repository) }
+    val saveBillUseCase = remember(repository) { SaveBillUseCase(repository) }
+    val getBillUseCase = remember(repository) { GetBillUseCase(repository) }
+
+    val homeViewModel = remember(observeRecentBillsUseCase) {
+        HomeViewModel(
+            observeRecentBillsUseCase = observeRecentBillsUseCase,
+            onRecentBillsFailure = { error ->
+                Log.e("BillSlice", "Unable to observe recent bills", error)
+            },
+        )
+    }
+    val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
+    val historyViewModel = remember(observeRecentBillsUseCase) { HistoryViewModel(observeRecentBillsUseCase) }
+    val historyUiState by historyViewModel.uiState.collectAsStateWithLifecycle()
+
     val navigationState = rememberAppNavigationState()
     var startupState by remember { mutableStateOf(initialStartupState) }
     val entries = BillSliceFeatureEntries(
@@ -96,19 +133,22 @@ fun BillSliceApp(
                 },
             )
         },
-        home = { onScan, onManual, onHistory, _, onLifetimePro ->
+        home = { onScan, onManual, onHistory, _, onLifetimePro, onOpenBill ->
             HomeScreen(
-                state = HomeUiState(),
+                state = homeUiState,
                 onScanReceipt = onScan,
                 onEnterManually = onManual,
                 onHistory = onHistory,
                 onLifetimePro = onLifetimePro,
+                onOpenBill = onOpenBill,
             )
         },
-        history = {
-            PlaceholderScreen(
-                title = R.string.history_placeholder_title,
-                body = R.string.history_placeholder_body,
+        history = { onOpenBill, onLifetimePro ->
+            HistoryScreen(
+                state = historyUiState,
+                onOpenBill = onOpenBill,
+                onLifetimePro = onLifetimePro,
+                onRetry = {},
             )
         },
         settings = { onLifetimePro ->
@@ -125,8 +165,20 @@ fun BillSliceApp(
         scanReceipt = { onBack ->
             BillFlowEntryScreen(BillFlowEntryMode.Scan, onBack = onBack)
         },
-        manualEntry = { onBack ->
-            com.dimasarya.billslice.feature.bill.ManualBillSplitFlowScreen(onBack = onBack)
+        manualEntry = { billId, onBack ->
+            if (billId != null) {
+                ReopenedBillEntry(
+                    billId = billId,
+                    getBillUseCase = getBillUseCase,
+                    saveBillUseCase = saveBillUseCase,
+                    onBack = onBack,
+                )
+            } else {
+                ManualBillSplitFlowScreen(
+                    saveBillUseCase = saveBillUseCase,
+                    onBack = onBack,
+                )
+            }
         },
         lifetimePro = { onBack ->
             PlaceholderScreen(
@@ -352,7 +404,7 @@ private fun PlaceholderScreen(
         Text(text = stringResource(body), style = MaterialTheme.typography.bodyLarge)
         if (onBack != null) {
             Button(onClick = onBack) {
-                Icon(Icons.Rounded.ArrowBack, contentDescription = null)
+                Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null)
                 Text(stringResource(R.string.back))
             }
         }

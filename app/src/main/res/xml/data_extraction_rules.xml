@@ -5,15 +5,15 @@
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <exclude domain="database" path="billslice_history.db" />
+        <exclude domain="database" path="billslice_history.db-journal" />
+        <exclude domain="database" path="billslice_history.db-wal" />
+        <exclude domain="database" path="billslice_history.db-shm" />
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <exclude domain="database" path="billslice_history.db" />
+        <exclude domain="database" path="billslice_history.db-journal" />
+        <exclude domain="database" path="billslice_history.db-wal" />
+        <exclude domain="database" path="billslice_history.db-shm" />
     </device-transfer>
-    -->
 </data-extraction-rules>

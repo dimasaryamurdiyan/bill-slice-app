@@ -32,6 +32,11 @@
     <string name="receipt_total_helper">For mismatch verification only</string>
     <string name="action_save_continue">Save and Continue</string>
     <string name="action_continue_add_people">Save and Continue</string>
+    <string name="reopen_bill_loading">Opening saved bill…</string>
+    <string name="reopen_bill_error_title">Couldn’t open this bill</string>
+    <string name="reopen_bill_error_body">The saved bill may be unavailable or incomplete. Try again, or go back without creating a new bill.</string>
+    <string name="reopen_bill_retry">Try again</string>
+    <string name="reopen_bill_back">Back</string>
 
     <string name="title_add_people">Add people</string>
     <string name="people_headline">Who’s at the table?</string>

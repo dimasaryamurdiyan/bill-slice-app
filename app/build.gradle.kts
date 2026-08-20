@@ -43,9 +43,15 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
+    implementation(project(":core:database"))
+    implementation(project(":core:data"))
     implementation(project(":feature:bill"))
+    implementation(project(":feature:history"))
     implementation(project(":feature:home"))
     implementation(project(":feature:settings"))
+    implementation(libs.room.runtime)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

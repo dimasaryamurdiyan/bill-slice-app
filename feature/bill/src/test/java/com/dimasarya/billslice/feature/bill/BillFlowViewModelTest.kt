@@ -94,4 +94,42 @@ class BillFlowViewModelTest {
         viewModel.onEvent(BillFlowUiEvent.UpdateDiscount(1_000))
         assertNull(viewModel.uiState.value.calculationResult)
     }
+
+    @Test
+    fun `reopening draft directly to SplitResult initializes calculation and state correctly`() {
+        val draft = com.dimasarya.billslice.core.testing.CanonicalBillFixtures.createCanonicalDraft()
+        val viewModel = BillFlowViewModel(
+            validateBillDraftUseCase = validateBillDraftUseCase,
+            calculateBillSplitUseCase = calculateBillSplitUseCase,
+            validateReceiptTotalsUseCase = validateReceiptTotalsUseCase,
+            generateShareTextUseCase = generateShareTextUseCase,
+            initialDraft = draft,
+            initialStep = BillFlowStep.SplitResult,
+        )
+
+        assertEquals(BillFlowStep.SplitResult, viewModel.uiState.value.step)
+        assertNotNull(viewModel.uiState.value.calculationResult)
+        assertEquals(Money.idr(219_450), viewModel.uiState.value.calculationResult?.total)
+    }
+
+    @Test
+    fun `calculateSplit automatically saves bill when saveBillUseCase is provided`() {
+        val fakeRepo = com.dimasarya.billslice.core.testing.FakeBillRepository()
+        val saveUseCase = com.dimasarya.billslice.core.domain.SaveBillUseCase(fakeRepo)
+        val draft = com.dimasarya.billslice.core.testing.CanonicalBillFixtures.createCanonicalDraft()
+
+        val viewModel = BillFlowViewModel(
+            validateBillDraftUseCase = validateBillDraftUseCase,
+            calculateBillSplitUseCase = calculateBillSplitUseCase,
+            validateReceiptTotalsUseCase = validateReceiptTotalsUseCase,
+            generateShareTextUseCase = generateShareTextUseCase,
+            saveBillUseCase = saveUseCase,
+            initialDraft = draft,
+        )
+
+        viewModel.onEvent(BillFlowUiEvent.CalculateSplit)
+
+        assertNotNull(viewModel.uiState.value.calculationResult)
+        assertEquals(BillFlowStep.CalculationSummary, viewModel.uiState.value.step)
+    }
 }

@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.DeviceConfigurationOverride
 import androidx.compose.ui.test.FontScale
 import androidx.compose.ui.test.ForcedSize
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -15,9 +16,16 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.then
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.dimasarya.billslice.core.domain.BillRepository
 import com.dimasarya.billslice.core.designsystem.theme.BillSliceTheme
+import com.dimasarya.billslice.core.model.BillCalculationResult
+import com.dimasarya.billslice.core.model.BillDraft
+import com.dimasarya.billslice.core.model.Money
+import com.dimasarya.billslice.core.model.RecentBillSummary
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
+import java.util.concurrent.atomic.AtomicInteger
 
 class AppShellNavigationTest {
     @get:Rule
@@ -75,6 +83,53 @@ class AppShellNavigationTest {
 
         composeRule.onNodeWithText("BillSlice needs a configuration fix").assertIsDisplayed()
         composeRule.onNodeWithText("Try again").assertDoesNotExist()
+    }
+
+    @Test
+    fun failedRecentBillReopenShowsErrorInsteadOfBlankDraft() {
+        val getAttempts = AtomicInteger(0)
+        val repository = object : BillRepository {
+            override suspend fun saveBill(
+                draft: BillDraft,
+                calculationResult: BillCalculationResult,
+            ): Result<Unit> = Result.success(Unit)
+
+            override fun observeBills() = flowOf(
+                listOf(
+                    RecentBillSummary(
+                        id = "missing-bill",
+                        merchantName = "Cafe Missing",
+                        createdAtEpochMillis = 1L,
+                        total = Money.idr(40_000),
+                        participantCount = 1,
+                    ),
+                ),
+            )
+
+            override suspend fun getBill(id: String): Result<BillDraft> {
+                getAttempts.incrementAndGet()
+                return Result.failure(NoSuchElementException(id))
+            }
+        }
+        composeRule.setContent {
+            DeviceConfigurationOverride(
+                DeviceConfigurationOverride.FontScale(2f) then
+                    DeviceConfigurationOverride.ForcedSize(DpSize(640.dp, 360.dp)),
+            ) {
+                BillSliceTheme { BillSliceApp(billRepository = repository) }
+            }
+        }
+
+        composeRule.onNode(hasScrollAction()).performScrollToNode(hasText("Cafe Missing"))
+        composeRule.onNode(hasText("Cafe Missing") and hasClickAction()).performClick()
+
+        composeRule.onNodeWithText("Couldn’t open this bill").assertIsDisplayed()
+        composeRule.onNodeWithText("Manual bill entry").assertDoesNotExist()
+        composeRule.onNodeWithText("Try again").performScrollTo().performClick()
+        composeRule.waitUntil { getAttempts.get() == 2 }
+        composeRule.onNodeWithText("Couldn’t open this bill").assertIsDisplayed()
+        composeRule.onNodeWithText("Back").performScrollTo().performClick()
+        composeRule.onNodeWithText("Split bills, not friendships.").assertIsDisplayed()
     }
 
     @Test

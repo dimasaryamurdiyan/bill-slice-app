@@ -32,7 +32,7 @@ class AppNavigationStateTest {
 
     @Test
     fun topLevelNavigationKeepsSingleDestination() {
-        val backStack = mutableListOf<NavKey>(HomeRoute, ManualEntryRoute)
+        val backStack = mutableListOf<NavKey>(HomeRoute, ManualEntryRoute())
         val state = AppNavigationState(backStack)
 
         state.navigateTopLevel(SettingsRoute)
@@ -43,7 +43,7 @@ class AppNavigationStateTest {
 
     @Test
     fun focusedFlowCanNavigateBackToHome() {
-        val backStack = mutableListOf<NavKey>(HomeRoute, ManualEntryRoute)
+        val backStack = mutableListOf<NavKey>(HomeRoute, ManualEntryRoute())
         val state = AppNavigationState(backStack)
 
         assertTrue(state.navigateBack())
@@ -56,7 +56,7 @@ class AppNavigationStateTest {
         val state = AppNavigationState(mutableListOf<NavKey>(HomeRoute))
 
         assertThrows(IllegalArgumentException::class.java) {
-            state.navigateTopLevel(ManualEntryRoute)
+            state.navigateTopLevel(ManualEntryRoute())
         }
     }
 }
