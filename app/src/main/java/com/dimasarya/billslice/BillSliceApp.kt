@@ -1,5 +1,6 @@
 package com.dimasarya.billslice
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -58,8 +59,6 @@ import com.dimasarya.billslice.core.designsystem.theme.WarmCanvas
 import com.dimasarya.billslice.core.designsystem.theme.WarmSurface
 import androidx.compose.foundation.background
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dimasarya.billslice.core.data.repository.BillRepositoryImpl
@@ -68,11 +67,10 @@ import com.dimasarya.billslice.core.domain.BillRepository
 import com.dimasarya.billslice.core.domain.GetBillUseCase
 import com.dimasarya.billslice.core.domain.ObserveRecentBillsUseCase
 import com.dimasarya.billslice.core.domain.SaveBillUseCase
-import com.dimasarya.billslice.core.model.BillDraft
 import com.dimasarya.billslice.feature.bill.BillFlowEntryMode
 import com.dimasarya.billslice.feature.bill.BillFlowEntryScreen
-import com.dimasarya.billslice.feature.bill.BillFlowStep
 import com.dimasarya.billslice.feature.bill.ManualBillSplitFlowScreen
+import com.dimasarya.billslice.feature.bill.ReopenedBillEntry
 import com.dimasarya.billslice.feature.history.HistoryScreen
 import com.dimasarya.billslice.feature.history.HistoryViewModel
 import com.dimasarya.billslice.feature.home.HomeScreen
@@ -103,7 +101,14 @@ fun BillSliceApp(
     val saveBillUseCase = remember(repository) { SaveBillUseCase(repository) }
     val getBillUseCase = remember(repository) { GetBillUseCase(repository) }
 
-    val homeViewModel = remember(observeRecentBillsUseCase) { HomeViewModel(observeRecentBillsUseCase) }
+    val homeViewModel = remember(observeRecentBillsUseCase) {
+        HomeViewModel(
+            observeRecentBillsUseCase = observeRecentBillsUseCase,
+            onRecentBillsFailure = { error ->
+                Log.e("BillSlice", "Unable to observe recent bills", error)
+            },
+        )
+    }
     val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
 
     val historyViewModel = remember(observeRecentBillsUseCase) { HistoryViewModel(observeRecentBillsUseCase) }
@@ -162,34 +167,12 @@ fun BillSliceApp(
         },
         manualEntry = { billId, onBack ->
             if (billId != null) {
-                var reopenedDraft by remember(billId) { mutableStateOf<BillDraft?>(null) }
-                var isLoading by remember(billId) { mutableStateOf(true) }
-                LaunchedEffect(billId) {
-                    reopenedDraft = getBillUseCase(billId).getOrNull()
-                    isLoading = false
-                }
-                if (isLoading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(WarmCanvas),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator(color = DeepEmerald)
-                    }
-                } else if (reopenedDraft != null) {
-                    ManualBillSplitFlowScreen(
-                        initialDraft = reopenedDraft,
-                        initialStep = BillFlowStep.SplitResult,
-                        saveBillUseCase = saveBillUseCase,
-                        onBack = onBack,
-                    )
-                } else {
-                    ManualBillSplitFlowScreen(
-                        saveBillUseCase = saveBillUseCase,
-                        onBack = onBack,
-                    )
-                }
+                ReopenedBillEntry(
+                    billId = billId,
+                    getBillUseCase = getBillUseCase,
+                    saveBillUseCase = saveBillUseCase,
+                    onBack = onBack,
+                )
             } else {
                 ManualBillSplitFlowScreen(
                     saveBillUseCase = saveBillUseCase,

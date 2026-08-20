@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
@@ -186,11 +187,14 @@ fun HomeScreen(
                 )
             }
         }
-        if (state.recentBills.isEmpty()) {
-            item { EmptyRecentBills() }
-        } else {
-            items(state.recentBills, key = RecentBillUi::id) { bill ->
-                RecentBillRow(bill = bill, onClick = { onOpenBill(bill.id) })
+        when (val recentBills = state.recentBills) {
+            RecentBillsUiState.Loading -> item { LoadingRecentBills() }
+            RecentBillsUiState.Empty -> item { EmptyRecentBills() }
+            RecentBillsUiState.Unavailable -> item { UnavailableRecentBills() }
+            is RecentBillsUiState.Populated -> {
+                items(recentBills.bills, key = RecentBillUi::id) { bill ->
+                    RecentBillRow(bill = bill, onClick = { onOpenBill(bill.id) })
+                }
             }
         }
     }
@@ -333,10 +337,55 @@ private fun EmptyRecentBills() {
 }
 
 @Composable
+private fun LoadingRecentBills() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .widthIn(max = 840.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Text(
+            text = stringResource(R.string.recent_bills_loading),
+            modifier = Modifier.padding(BillSliceThemeTokens.spacing.large),
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+private fun UnavailableRecentBills() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .widthIn(max = 840.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Column(
+            modifier = Modifier.padding(BillSliceThemeTokens.spacing.large),
+            verticalArrangement = Arrangement.spacedBy(BillSliceThemeTokens.spacing.extraSmall),
+        ) {
+            Text(
+                text = stringResource(R.string.recent_bills_unavailable_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = stringResource(R.string.recent_bills_unavailable_body),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
+}
+
+@Composable
 private fun RecentBillRow(
     bill: RecentBillUi,
-    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Surface(
         modifier = modifier
@@ -344,7 +393,7 @@ private fun RecentBillRow(
             .widthIn(max = 840.dp)
             .clickable(
                 role = Role.Button,
-                onClickLabel = stringResource(R.string.recent_bills),
+                onClickLabel = stringResource(R.string.recent_bill_reopen_action, bill.merchantName),
                 onClick = onClick,
             ),
         color = MaterialTheme.colorScheme.surface,
@@ -356,18 +405,26 @@ private fun RecentBillRow(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(bill.merchantName, style = MaterialTheme.typography.titleMedium)
+                val dateLabel = bill.dateLabel ?: stringResource(R.string.recent_bill_date_unknown)
                 Text(
-                    text = stringResource(
-                        R.string.recent_bill_meta,
-                        bill.dateLabel,
+                    text = bill.merchantName,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Text(
+                    text = pluralStringResource(
+                        R.plurals.recent_bill_meta,
+                        bill.peopleCount,
+                        dateLabel,
                         bill.peopleCount,
                     ),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelMedium,
                 )
             }
-            Text(bill.totalLabel, style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = bill.totalLabel,
+                style = MaterialTheme.typography.titleMedium,
+            )
         }
     }
 }
@@ -381,9 +438,11 @@ private fun HomeScreenPreview() {
         HomeScreen(
             state = HomeUiState(
                 quota = SmartScanQuotaUiState.Available(5),
-                recentBills = listOf(
-                    RecentBillUi("1", "Warung Sore", "13 Aug 2026", 3, "Rp219.450"),
-                    RecentBillUi("2", "Kopi Tepi", "9 Aug 2026", 2, "Rp128.000"),
+                recentBills = RecentBillsUiState.Populated(
+                    listOf(
+                        RecentBillUi("1", "Warung Sore", "13 Aug 2026", 3, "Rp219.450"),
+                        RecentBillUi("2", "Kopi Tepi", "9 Aug 2026", 2, "Rp128.000"),
+                    ),
                 ),
             ),
             onScanReceipt = {},

@@ -11,6 +11,6 @@ class HomeUiStateTest {
 
         assertTrue(state.isOfflineReady)
         assertEquals(SmartScanQuotaUiState.Unavailable, state.quota)
-        assertTrue(state.recentBills.isEmpty())
+        assertEquals(RecentBillsUiState.Loading, state.recentBills)
     }
 }
