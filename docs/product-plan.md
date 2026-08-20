@@ -1,6 +1,6 @@
 # BillSlice Product Plan
 
-Last updated: 2026-08-12
+Last updated: 2026-08-20
 
 ## Product Direction
 
@@ -108,6 +108,7 @@ Request:
 
 ```json
 {
+  "requestId": "opaque-scan-request-id",
   "installId": "anonymous-device-id",
   "locale": "id-ID",
   "currency": "IDR",
@@ -118,9 +119,11 @@ Request:
 
 Backend responsibilities:
 
-- Check monthly Smart Scan quota.
+- Check monthly Smart Scan quota using server time and `Asia/Jakarta` calendar months.
 - Check Pro entitlement when available.
 - Call OpenAI using a server-side API key.
+- Consume quota atomically only for a structurally valid, usable editable draft, at most once per request ID.
+- Replay the same successful structured result for the same install-scoped request ID for up to one hour without another OpenAI call or quota use; after expiry, return a typed expired outcome without reparsing or recharging it.
 - Return structured receipt JSON.
 - Return parse warnings.
 - Store minimal usage/log data.
@@ -142,9 +145,17 @@ smart_scan_logs
 - model
 - input_hash
 - error_code
+
+smart_scan_requests
+- install_id
+- request_id
+- month_key
+- result_json
+- counted_at
+- result_expires_at
 ```
 
-Do not store full OCR text by default unless the user explicitly opts into debugging or support diagnostics.
+Do not store full OCR text by default unless the user explicitly opts into debugging or support diagnostics. Successful structured result data is not a log and must be cleared within one hour; its opaque request/count marker may remain with minimal quota usage data to prevent a second charge.
 
 RevenueCat identity:
 
