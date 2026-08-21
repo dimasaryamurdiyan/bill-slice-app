@@ -1,6 +1,6 @@
 # Smart Scan implementation plan
 
-- Status: Ready
+- Status: In Progress
 - Specification: [`docs/specs/smart-scan.md`](../specs/smart-scan.md)
 - Branch: `codex/smart-scan`
 
@@ -17,25 +17,25 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
 
 ## Vertical slices
 
-- [ ] `T-001` — Establish green baseline and sanitized fixtures
+- [x] `T-001` — Establish green baseline and sanitized fixtures
   - Covers: `AC-009`
   - Result: Baseline green; private receipt data absent; API contract examples copied into sanitized Android/backend fixtures without drift.
   - Likely scope: read-only checks and sanitized test assets.
   - Verification: existing gates and fixture review.
   - Depends on: none
-- [ ] `T-002` — Define quota, parse, and OCR outcomes test-first
+- [x] `T-002` — Define quota, parse, and OCR outcomes test-first
   - Covers: `FR-003`–`FR-006`, `FR-010`; `AC-003`, `AC-004`
   - Result: Pure models/use cases represent server-controlled Jakarta quota, request ID, usable parse result/warnings, and typed local/remote errors without SDK leakage.
   - Likely scope: `:core:model`, `:core:domain`, `:core:testing`.
   - Verification: JVM quota/time/idempotency/error tests.
   - Depends on: `T-001`
-- [ ] `T-003` — Implement capture/import and ML Kit adapter
+- [x] `T-003` — Implement capture/import and ML Kit adapter
   - Covers: `FR-001`–`FR-003`, `FR-010`, `FR-012`; `AC-001`, `AC-003`, `AC-007`
   - Result: Narrow permission, system import, invalid-image rejection, unbundled OCR, empty/unusable-text rejection, neutral cancellation, and transient cleanup work behind `ReceiptOcr`.
   - Likely scope: `:core:ocr`, `:feature:bill`, manifest/platform contracts, tests.
   - Verification: adapter/permission/storage tests and compilation.
   - Depends on: `T-002`
-- [ ] `T-004` — Implement Smart Scan network/repository adapter
+- [x] `T-004` — Implement Smart Scan network/repository adapter
   - Covers: `FR-004`–`FR-006`, `FR-010`; `AC-002`, `AC-004`
   - Result: HTTPS client sends only allowed fields, reuses one request ID for explicit retries, maps all responses, and produces no sensitive logs/persistence.
   - Likely scope: `:core:network`, `:core:data`, domain repository, config/tests.
@@ -43,10 +43,10 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
   - Depends on: `T-002`
 - [ ] `T-005` — Verify authoritative backend quota/privacy contract
   - Covers: `FR-005`, `FR-006`; `AC-002`, `AC-004`
-  - Result: Test endpoint atomically enforces five successful usable parses per server-controlled Jakarta month, fails closed when policy cannot be verified, scopes request IDs to installs, replays a successful request without a second AI call/quota use, clears structured result data within one hour while retaining the minimal no-double-charge marker, and keeps raw OCR out of storage/logs.
-  - Likely scope: test backend/deployment evidence; backend source only in its approved repository/location.
-  - Verification: concurrent/idempotent test-backend integration against the exact API contract, replay/expiry/storage/log inspection.
-  - Depends on: `T-004`
+  - Result: The Android adapter passes against a staging endpoint whose implementation and backend evidence satisfy the separate [`Smart Scan backend plan`](smart-scan-backend.md).
+  - Likely scope: Android/staging integration evidence; backend source and verification are owned by the linked backend plan.
+  - Verification: Android-compatible deployed contract suite plus referenced backend quota/replay/expiry/privacy evidence.
+  - Depends on: `T-004`; backend plan `T-008`
 - [ ] `T-006` — Implement loading state machine and cancellation
   - Covers: `FR-007`, `FR-010`–`FR-012`; `AC-005`, `AC-007`
   - Result: Explicit steps, neutral cancellation, user-initiated same-ID retry, configuration-change continuity, process-death cleanup, duplicate prevention, and every manual fallback state pass coroutine tests.

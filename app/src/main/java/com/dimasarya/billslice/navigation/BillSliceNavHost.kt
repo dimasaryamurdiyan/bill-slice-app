@@ -20,7 +20,7 @@ data class BillSliceFeatureEntries(
         onLifetimePro: () -> Unit,
     ) -> Unit,
     val settings: @Composable (onLifetimePro: () -> Unit) -> Unit,
-    val scanReceipt: @Composable (onBack: () -> Unit) -> Unit,
+    val scanReceipt: @Composable (onBack: () -> Unit, onEnterManually: () -> Unit) -> Unit,
     val manualEntry: @Composable (billId: String?, onBack: () -> Unit) -> Unit,
     val lifetimePro: @Composable (onBack: () -> Unit) -> Unit,
 )
@@ -63,7 +63,10 @@ fun BillSliceNavHost(
                 entries.settings { navigationState.navigate(LifetimeProRoute) }
             }
             entry<ScanReceiptRoute> {
-                entries.scanReceipt { navigationState.navigateBack() }
+                entries.scanReceipt(
+                    { navigationState.navigateBack() },
+                    { navigationState.navigate(ManualEntryRoute()) },
+                )
             }
             entry<ManualEntryRoute> { route ->
                 entries.manualEntry(route.billId) { navigationState.navigateBack() }

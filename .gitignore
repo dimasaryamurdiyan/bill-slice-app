@@ -67,3 +67,6 @@ client_secret*.json
 # OS-generated files
 .DS_Store
 Thumbs.db
+
+.agents/
+skills-lock.json

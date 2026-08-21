@@ -67,8 +67,8 @@ import com.dimasarya.billslice.core.domain.BillRepository
 import com.dimasarya.billslice.core.domain.GetBillUseCase
 import com.dimasarya.billslice.core.domain.ObserveRecentBillsUseCase
 import com.dimasarya.billslice.core.domain.SaveBillUseCase
-import com.dimasarya.billslice.feature.bill.BillFlowEntryMode
-import com.dimasarya.billslice.feature.bill.BillFlowEntryScreen
+import com.dimasarya.billslice.core.ocr.MlKitReceiptOcr
+import com.dimasarya.billslice.feature.bill.ReceiptCaptureScreen
 import com.dimasarya.billslice.feature.bill.ManualBillSplitFlowScreen
 import com.dimasarya.billslice.feature.bill.ReopenedBillEntry
 import com.dimasarya.billslice.feature.history.HistoryScreen
@@ -94,6 +94,7 @@ fun BillSliceApp(
     billRepository: BillRepository? = null,
 ) {
     val context = LocalContext.current
+    val receiptOcr = remember(context) { MlKitReceiptOcr(context.applicationContext) }
     val repository = remember(billRepository) {
         billRepository ?: BillRepositoryImpl(BillSliceDatabase.buildDatabase(context).billDao())
     }
@@ -162,8 +163,12 @@ fun BillSliceApp(
                 onLifetimePro = onLifetimePro,
             )
         },
-        scanReceipt = { onBack ->
-            BillFlowEntryScreen(BillFlowEntryMode.Scan, onBack = onBack)
+        scanReceipt = { onBack, onEnterManually ->
+            ReceiptCaptureScreen(
+                onBack = onBack,
+                onEnterManually = onEnterManually,
+                onImageSelected = receiptOcr::recognize,
+            )
         },
         manualEntry = { billId, onBack ->
             if (billId != null) {
