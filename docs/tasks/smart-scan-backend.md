@@ -1,6 +1,6 @@
 # Smart Scan backend implementation plan
 
-- Status: Proposed
+- Status: Ready
 - Specification: [`docs/specs/smart-scan-backend.md`](../specs/smart-scan-backend.md)
 - Branch: `codex/smart-scan-backend`
 

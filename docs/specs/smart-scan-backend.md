@@ -1,6 +1,6 @@
 # Smart Scan backend
 
-- Status: Draft
+- Status: Approved
 - Owner: Human
 - Last updated: 2026-08-20
 
