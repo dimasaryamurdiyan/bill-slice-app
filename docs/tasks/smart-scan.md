@@ -43,10 +43,10 @@ Manual draft/review interfaces and app shell implemented; approved [`Smart Scan 
   - Depends on: `T-002`
 - [ ] `T-005` — Verify authoritative backend quota/privacy contract
   - Covers: `FR-005`, `FR-006`; `AC-002`, `AC-004`
-  - Result: Test endpoint atomically enforces five successful usable parses per server-controlled Jakarta month, fails closed when policy cannot be verified, scopes request IDs to installs, replays a successful request without a second AI call/quota use, clears structured result data within one hour while retaining the minimal no-double-charge marker, and keeps raw OCR out of storage/logs.
-  - Likely scope: test backend/deployment evidence; backend source only in its approved repository/location.
-  - Verification: concurrent/idempotent test-backend integration against the exact API contract, replay/expiry/storage/log inspection.
-  - Depends on: `T-004`
+  - Result: The Android adapter passes against a staging endpoint whose implementation and backend evidence satisfy the separate [`Smart Scan backend plan`](smart-scan-backend.md).
+  - Likely scope: Android/staging integration evidence; backend source and verification are owned by the linked backend plan.
+  - Verification: Android-compatible deployed contract suite plus referenced backend quota/replay/expiry/privacy evidence.
+  - Depends on: `T-004`; backend plan `T-008`
 - [ ] `T-006` — Implement loading state machine and cancellation
   - Covers: `FR-007`, `FR-010`–`FR-012`; `AC-005`, `AC-007`
   - Result: Explicit steps, neutral cancellation, user-initiated same-ID retry, configuration-change continuity, process-death cleanup, duplicate prevention, and every manual fallback state pass coroutine tests.
