@@ -1,6 +1,6 @@
 # Smart Scan API contract
 
-- Status: Draft
+- Status: Approved
 - Owner: Human
 - Contract version: 1
 - Last updated: 2026-08-20
